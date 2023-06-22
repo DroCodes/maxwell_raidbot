@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/index.js",
-    "start-dev": "nodemon ts-node src/index.js"
+    "start": "ts-node src/index.ts",
+    "start-dev": "nodemon src/index.ts",
+    "dev-commands": "ts-node src/deployDevCommands.ts",
+    "global-commands": "ts-node src/deployGlobalCommands.ts"
   },
   "dependencies": {
     "@types/node": "^20.3.1",
