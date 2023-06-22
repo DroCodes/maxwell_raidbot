@@ -1,4 +1,4 @@
-import {DataTypes, Model} from "sequelize";
+import {Model} from "sequelize";
 
 
 interface IGuildSettingsAttributes {
