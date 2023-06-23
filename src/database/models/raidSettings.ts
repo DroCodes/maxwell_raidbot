@@ -1,10 +1,9 @@
-import {DataTypes, JSON, json} from "sequelize";
+import {DataTypes} from "sequelize";
 import {
     IRaidSettingsInstance
 } from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes'
 import { sequelize } from "./index";
 import RaidEmoji from "./raidEmoji";
-import {IRaidEmojiInstance} from "../../interfaces/databaseInterfaces/IRaidEmojiAttributes";
 
 const RaidSettings = sequelize.define<IRaidSettingsInstance>(
     'RaidSettings',
@@ -13,7 +12,7 @@ const RaidSettings = sequelize.define<IRaidSettingsInstance>(
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             unique: true,
         },
 

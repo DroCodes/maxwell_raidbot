@@ -9,7 +9,7 @@ const RaidEmoji = sequelize.define<IRaidEmojiInstance>(
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
-            type: DataTypes.UUID,
+            type: DataTypes.INTEGER,
             unique: true,
         },
 
