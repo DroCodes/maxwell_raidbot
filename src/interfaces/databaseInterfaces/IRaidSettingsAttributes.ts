@@ -1,9 +1,11 @@
 import {Model} from "sequelize";
+import {IRaidEmojiInstance} from "./IRaidEmojiAttributes";
 
 interface IRaidSettingsAttributes {
-    // id: string;
+    id?: number;
     raidChannelGroup?: string;
-    signUpEmoji?: Array<{ RoleName: string; EmojiName: string }>;
+    raidEmoji?: IRaidEmojiInstance[];
+    GuildSettingsId: string;
 }
 
 export interface IRaidSettingsInstance

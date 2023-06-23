@@ -1,9 +1,15 @@
 import guildSettings from "./models/guildSettings";
 import raidSettings from "./models/raidSettings";
+import raidEmoji from "./models/raidEmoji";
 
 const updateDB = async () => {
-    await guildSettings.sync({alter: true});
-    await raidSettings.sync({alter: true})
+    const dbArray = [guildSettings, raidSettings, raidEmoji]
+
+    for (let i = 0; i < dbArray.length; i++) {
+        console.log('iteration ' + i)
+        await dbArray[i].sync({alter: true}).catch(e => console.log(`error syncing ${dbArray[i]}` + e))
+        console.log(`${dbArray[i]} is done syncing`)
+    }
     console.log('database was (re)created')
 }
 
