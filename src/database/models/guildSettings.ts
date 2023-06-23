@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import { IGuildSettingsInstance } from '../../interfaces/databaseInterfaces/IGuildSettingsAttributes'
 import { sequelize } from "./index";
 import RaidSettings from "./raidSettings";
+import Tier from "./tier";
 
 const GuildSettings = sequelize.define<IGuildSettingsInstance>(
     'GuildSettings',
@@ -9,12 +10,17 @@ const GuildSettings = sequelize.define<IGuildSettingsInstance>(
         guildId: {
             allowNull: false,
             primaryKey: true,
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             unique: true,
         },
         botChannelId: {
             allowNull: true,
             type: DataTypes.TEXT,
+        },
+
+        tier: {
+            allowNull: true,
+            type: DataTypes.ARRAY(DataTypes.JSONB),
         },
     });
 
@@ -26,6 +32,19 @@ GuildSettings.hasOne(RaidSettings, {
 })
 
 RaidSettings.belongsTo(GuildSettings, {
+    foreignKey: 'GuildSettingsId',
+    as: 'GuildSettings',
+    onDelete: 'CASCADE'
+})
+
+GuildSettings.hasMany(Tier, {
+    sourceKey: 'guildId',
+    foreignKey: 'GuildSettingsId',
+    as: 'Tier',
+    onDelete: 'CASCADE'
+})
+
+Tier.belongsTo(GuildSettings, {
     foreignKey: 'GuildSettingsId',
     as: 'GuildSettings',
     onDelete: 'CASCADE'
