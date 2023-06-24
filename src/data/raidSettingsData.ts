@@ -1,7 +1,5 @@
 import RaidSettings from "../database/models/raidSettings";
 import RaidEmoji from "../database/models/raidEmoji";
-import {IRaidEmojiInstance} from "../interfaces/databaseInterfaces/IRaidEmojiAttributes";
-import raidEmoji from "../database/models/raidEmoji";
 
 const findRaidSettings = async (guildId: string)=> {
     try {
@@ -56,20 +54,18 @@ const saveSignUpEmoji = async (guildId: string, role: string, emoji: string) => 
         const raidSettings = await findRaidSettings(guildId);
         if (raidSettings === null || raidSettings === undefined) return null
 
-        if (!raidSettings.raidEmoji) {
-            raidSettings.raidEmoji = []; // Initialize raidEmoji as an empty array if it is null
-        }
+        // if (!raidSettings.raidEmoji) {
+        //     raidSettings.raidEmoji = []; // Initialize raidEmoji as an empty array if it is null
+        // }
 
-        const newRaidEmoji = await RaidEmoji.create({
-                role: role,
-                emoji: emoji,
-                RaidSettingsId: raidSettings.id as number
-        })
+        // raidSettings.raidEmoji?.push(newRaidEmoji)
+        // await raidSettings.save();
 
-        raidSettings.raidEmoji?.push(newRaidEmoji)
-        await raidSettings.save();
-
-        return newRaidEmoji;
+        return await RaidEmoji.create({
+            role: role,
+            emoji: emoji,
+            RaidSettingsId: raidSettings.id as number
+        });
     } catch (err) {
         console.error('error saving role/emoji', err)
     }

@@ -1,7 +1,7 @@
 import {Model} from "sequelize";
 
 interface IRaidEmojiAttributes {
-    id: number;
+    id?: number;
     role: string;
     emoji: string;
     RaidSettingsId: number;
