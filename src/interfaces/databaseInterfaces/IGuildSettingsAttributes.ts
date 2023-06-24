@@ -5,7 +5,7 @@ import {ITierInstance} from "./ITierAttributes";
 interface IGuildSettingsAttributes {
     guildId: string;
     botChannelId?: string;
-    tier?: ITierInstance[]
+    // tier?: ITierInstance[]
 }
 
 export interface IGuildSettingsInstance

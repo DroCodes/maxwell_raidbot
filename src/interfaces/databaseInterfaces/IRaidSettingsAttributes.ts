@@ -4,7 +4,7 @@ import {IRaidEmojiInstance} from "./IRaidEmojiAttributes";
 interface IRaidSettingsAttributes {
     id?: number;
     raidChannelGroup?: string;
-    raidEmoji?: IRaidEmojiInstance[];
+    // raidEmoji?: IRaidEmojiInstance[];
     GuildSettingsId: string;
 }
 

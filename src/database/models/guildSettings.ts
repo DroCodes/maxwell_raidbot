@@ -18,10 +18,10 @@ const GuildSettings = sequelize.define<IGuildSettingsInstance>(
             type: DataTypes.TEXT,
         },
 
-        tier: {
-            allowNull: true,
-            type: DataTypes.ARRAY(DataTypes.JSONB),
-        },
+        // tier: {
+        //     allowNull: true,
+        //     type: DataTypes.ARRAY(DataTypes.JSONB),
+        // },
     });
 
 GuildSettings.hasOne(RaidSettings, {

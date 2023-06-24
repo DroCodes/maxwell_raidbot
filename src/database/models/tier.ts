@@ -19,10 +19,10 @@ const Tier = sequelize.define<ITierInstance>(
             type: DataTypes.STRING,
         },
 
-        role: {
-            allowNull: true,
-            type: DataTypes.ARRAY(DataTypes.JSONB),
-        },
+        // role: {
+        //     allowNull: true,
+        //     type: DataTypes.ARRAY(DataTypes.JSONB),
+        // },
 
         GuildSettingsId: {
             allowNull: false,

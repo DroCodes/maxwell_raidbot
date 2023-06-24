@@ -4,7 +4,7 @@ import {IRoleInstance} from "./IRoleAttributes";
 interface ITierAttributes {
     id?: number;
     tierName: string;
-    role: IRoleInstance[];
+    // role: IRoleInstance[];
     isRestricted?: boolean;
     GuildSettingsId: string;
 }
