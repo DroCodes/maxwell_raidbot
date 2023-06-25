@@ -3,7 +3,6 @@ import { Model } from 'sequelize';
 interface IRaidSettingsAttributes {
     id?: number;
     raidChannelGroup?: string;
-    // raidEmoji?: IRaidEmojiInstance[];
     GuildSettingsId: string;
 }
 
