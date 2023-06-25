@@ -1,11 +1,20 @@
 import { Sequelize } from 'sequelize';
-import 'dotenv/config'
+import 'dotenv/config';
 
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const config = require(__dirname + '/../config/config.ts')[env];
 
-const  sequelize = config.url
-    ? new Sequelize(config.url, config)
-    : new Sequelize(config.development);
+// import { Sequelize } from 'sequelize';
+// import dotenv from 'dotenv';
+//
+// dotenv.config();
+//
+// const env = process.env.NODE_ENV || 'development';
+// import config from '../config/config';
+
+const sequelize = config.url
+	? new Sequelize(config.url, config)
+	: new Sequelize(config.development);
 
 export { Sequelize, sequelize };

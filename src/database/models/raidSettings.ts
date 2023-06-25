@@ -1,48 +1,48 @@
-import {DataTypes} from "sequelize";
+import { DataTypes } from 'sequelize';
 import {
-    IRaidSettingsInstance
-} from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes'
-import { sequelize } from "./index";
-import RaidEmoji from "./raidEmoji";
+	IRaidSettingsInstance,
+} from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes';
+import { sequelize } from './index';
+import RaidEmoji from './raidEmoji';
 
 const RaidSettings = sequelize.define<IRaidSettingsInstance>(
-    'RaidSettings',
-    {
-        id: {
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-            type: DataTypes.INTEGER,
-            unique: true,
-        },
+	'RaidSettings',
+	{
+		id: {
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true,
+			type: DataTypes.INTEGER,
+			unique: true,
+		},
 
-        raidChannelGroup: {
-            allowNull: true,
-            type: DataTypes.TEXT,
-        },
+		raidChannelGroup: {
+			allowNull: true,
+			type: DataTypes.TEXT,
+		},
 
-        // raidEmoji: {
-        //     allowNull: true,
-        //     type: DataTypes.ARRAY(DataTypes.JSONB),
-        // },
+		// raidEmoji: {
+		//     allowNull: true,
+		//     type: DataTypes.ARRAY(DataTypes.JSONB),
+		// },
 
-        GuildSettingsId: {
-            allowNull: false,
-            type: DataTypes.TEXT
-        }
-    });
+		GuildSettingsId: {
+			allowNull: false,
+			type: DataTypes.TEXT,
+		},
+	});
 
 RaidSettings.hasMany(RaidEmoji, {
-    sourceKey: 'id',
-    foreignKey: 'RaidSettingsId',
-    as: 'RaidEmoji',
-    onDelete: 'CASCADE'
-})
+	sourceKey: 'id',
+	foreignKey: 'RaidSettingsId',
+	as: 'RaidEmoji',
+	onDelete: 'CASCADE',
+});
 
 RaidEmoji.belongsTo(RaidSettings, {
-    foreignKey: 'RaidSettingsId',
-    as: 'RaidSettings',
-    onDelete: 'CASCADE'
-})
+	foreignKey: 'RaidSettingsId',
+	as: 'RaidSettings',
+	onDelete: 'CASCADE',
+});
 
-export default RaidSettings
+export default RaidSettings;

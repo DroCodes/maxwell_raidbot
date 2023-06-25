@@ -1,5 +1,4 @@
-import {Model} from "sequelize";
-import {IRaidEmojiInstance} from "./IRaidEmojiAttributes";
+import { Model } from 'sequelize';
 
 interface IRaidSettingsAttributes {
     id?: number;

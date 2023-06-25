@@ -1,5 +1,4 @@
-import {Model} from "sequelize";
-import {ITierInstance} from "./ITierAttributes";
+import { Model } from 'sequelize';
 
 
 interface IGuildSettingsAttributes {

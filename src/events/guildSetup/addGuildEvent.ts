@@ -1,17 +1,16 @@
-import {Events, Guild} from "discord.js";
-import GuildSettings from "../../database/models/guildSettings";
-import {saveGuildId} from "../../data/guildSettingsData";
+import { Events, Guild } from 'discord.js';
+import { saveGuildId } from '../../database/dataRepository/guildSettingsRepository';
 
 module.exports = {
-    name: Events.GuildCreate,
-    isDevelopment: true,
+	name: Events.GuildCreate,
+	isDevelopment: true,
 
-    async execute(guild: Guild)  {
-        const checkGuildExists = await saveGuildId(guild.id.toString())
+	async execute(guild: Guild) {
+		const checkGuildExists = await saveGuildId(guild.id.toString());
 
-        if (!checkGuildExists) {
-            return
-        }
-    }
+		if (!checkGuildExists) {
+			return;
+		}
+	},
 
-}
+};
