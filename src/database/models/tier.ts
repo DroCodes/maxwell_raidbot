@@ -1,47 +1,53 @@
-import {sequelize} from "./index";
-import {ITierInstance} from "../../interfaces/databaseInterfaces/ITierAttributes";
-import {DataTypes} from "sequelize";
-import Role from "./role";
+import { sequelize } from './index';
+import { ITierInstance } from '../../interfaces/databaseInterfaces/ITierAttributes';
+import { DataTypes } from 'sequelize';
+import Role from './role';
 
-const Tier = sequelize.define<ITierInstance>(
-    'Tier',
-    {
-        id: {
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-            type: DataTypes.INTEGER,
-            unique: true
-        },
+const Tier = sequelize.define < ITierInstance > (
+	'Tier',
+	{
+		id: {
+			allowNull: false,
+			primaryKey: true,
+			autoIncrement: true,
+			type: DataTypes.INTEGER,
+			unique: true,
+		},
 
-        tierName: {
-            allowNull: false,
-            type: DataTypes.STRING,
-        },
+		tierName: {
+			allowNull: false,
+			type: DataTypes.STRING,
+		},
 
-        // role: {
-        //     allowNull: true,
-        //     type: DataTypes.ARRAY(DataTypes.JSONB),
-        // },
+		roleName: {
+			allowNull: true,
+			type: DataTypes.ARRAY(DataTypes.TEXT),
+		},
 
-        GuildSettingsId: {
-            allowNull: false,
-            type: DataTypes.TEXT
-        }
-    }
-)
+		isRestricted: {
+			allowNull: true,
+			defaultValue: false,
+			type: DataTypes.BOOLEAN,
+		},
+
+		GuildSettingsId: {
+			allowNull: false,
+			type: DataTypes.TEXT,
+		},
+	},
+);
 
 Tier.hasMany(Role, {
-    sourceKey: 'id',
-    foreignKey: 'TierId',
-    as: 'Role',
-    onDelete: 'CASCADE'
-})
+	sourceKey: 'id',
+	foreignKey: 'TierId',
+	as: 'Role',
+	onDelete: 'CASCADE',
+});
 
 Role.belongsTo(Tier, {
-    foreignKey: 'TierId',
-    as: 'Tier',
-    onDelete: 'CASCADE'
-})
+	foreignKey: 'TierId',
+	as: 'Tier',
+	onDelete: 'CASCADE',
+});
 
 export default Tier;

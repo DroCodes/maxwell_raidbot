@@ -1,11 +1,10 @@
-import {Model} from "sequelize";
-import {IRoleInstance} from "./IRoleAttributes";
+import { Model } from 'sequelize';
 
 interface ITierAttributes {
     id?: number;
     tierName: string;
-    // role: IRoleInstance[];
-    isRestricted?: boolean;
+    roleName: string[];
+    isRestricted: boolean | null;
     GuildSettingsId: string;
 }
 
