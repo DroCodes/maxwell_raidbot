@@ -3,6 +3,7 @@ import { IGuildSettingsInstance } from '../../interfaces/databaseInterfaces/IGui
 import { sequelize } from './index';
 import RaidSettings from './raidSettings';
 import Tier from './tier';
+import Raid from './raid';
 
 const GuildSettings = sequelize.define<IGuildSettingsInstance>(
 	'GuildSettings',
@@ -40,6 +41,19 @@ GuildSettings.hasMany(Tier, {
 });
 
 Tier.belongsTo(GuildSettings, {
+	foreignKey: 'GuildSettingsId',
+	as: 'GuildSettings',
+	onDelete: 'CASCADE',
+});
+
+GuildSettings.hasMany(Raid, {
+	sourceKey: 'guildId',
+	foreignKey: 'GuildSettingsId',
+	as: 'Raid',
+	onDelete: 'CASCADE',
+});
+
+Raid.belongsTo(GuildSettings, {
 	foreignKey: 'GuildSettingsId',
 	as: 'GuildSettings',
 	onDelete: 'CASCADE',
