@@ -1,5 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { createTier } from '../../database/dataRepository/tierRepository';
+import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
+import { verifyBotChannel } from '../../lib/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,11 +26,18 @@ module.exports = {
 	async execute(interaction: any) {
 		console.log('Interaction type' + typeof interaction);
 		try {
-			const { guildId, options } = interaction;
+			const { guildId, options, channel } = interaction;
 
 			const tierName = options.getString('tier_name');
 			const role = options.getRole('role');
 			const isRestricted = options.getBoolean('is_restricted');
+
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				return;
+			}
 
 			const formatTierName = tierName.replace(' ', '-');
 

@@ -8,8 +8,14 @@ const Raid = sequelize.define<IRaidInstance>(
 		id: {
 			allowNull: false,
 			primaryKey: true,
+			autoIncrement: true,
 			type: DataTypes.INTEGER,
 			unique: true,
+		},
+
+		raidName: {
+			allowNull: false,
+			type: DataTypes.TEXT,
 		},
 
 		info: {
@@ -17,7 +23,7 @@ const Raid = sequelize.define<IRaidInstance>(
 			type: DataTypes.TEXT,
 		},
 
-		raidName: {
+		raidLead: {
 			allowNull: true,
 			type: DataTypes.TEXT,
 		},
@@ -27,9 +33,24 @@ const Raid = sequelize.define<IRaidInstance>(
 			type: DataTypes.TEXT,
 		},
 
-		raidRoles: {
+		// raidRoles: {
+		// 	allowNull: true,
+		// 	type: DataTypes.ARRAY(DataTypes.TEXT),
+		// },
+
+		tanks: {
 			allowNull: true,
-			type: DataTypes.ARRAY(DataTypes.TEXT),
+			type: DataTypes.TEXT,
+		},
+
+		healers: {
+			allowNull: true,
+			type: DataTypes.TEXT,
+		},
+
+		dps: {
+			allowNull: true,
+			type: DataTypes.TEXT,
 		},
 
 		raidDateTime: {
@@ -37,8 +58,13 @@ const Raid = sequelize.define<IRaidInstance>(
 			type: DataTypes.DATE,
 		},
 
-		GuildSettingsId: {
+		raidChannelId: {
 			allowNull: true,
+			type: DataTypes.TEXT,
+		},
+
+		GuildSettingsId: {
+			allowNull: false,
 			type: DataTypes.TEXT,
 		},
 	},

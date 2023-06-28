@@ -8,7 +8,8 @@
     "start-dev": "nodemon src/index.ts",
     "dev-commands": "ts-node src/deployDevCommands.ts",
     "global-commands": "ts-node src/deployGlobalCommands.ts",
-    "update-db": "ts-node src/database/updateDatabase.ts"
+    "update-db": "ts-node src/database/updateDatabase.ts",
+    "test-date": "ts-node src/lib/dateHelpers/dateFormater.ts"
   },
   "dependencies": {
     "@types/node": "^20.3.1",
