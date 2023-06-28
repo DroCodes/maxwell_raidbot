@@ -2,12 +2,17 @@ import { Model } from 'sequelize';
 
 interface IRaidAttributes {
     id?: number;
+    raidName: string;
     info?: string,
-    raidName?: string;
+    raidLead?: string
     raidTier?: string,
-    raidRoles?: number[];
+    // raidRoles?: number[];
+    tanks?: string;
+    healers?: string;
+    dps?: string;
     raidDateTime?: Date;
-    GuildSettingsId?: string;
+    raidChannelId?: string;
+    GuildSettingsId: string;
 }
 
 export interface IRaidInstance

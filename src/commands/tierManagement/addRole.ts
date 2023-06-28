@@ -1,5 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { addRoleToTier } from '../../database/dataRepository/tierRepository';
+import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
+import { findRaid } from '../../database/dataRepository/raidRepository';
+import { verifyBotChannel } from '../../lib/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -19,10 +22,17 @@ module.exports = {
 
 	async execute(interaction: any) {
 		try {
-			const { guildId, options } = interaction;
+			const { guildId, options, channel } = interaction;
 
 			const tierName = options.getString('tier_name');
 			const role = options.getRole('role');
+
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				return;
+			}
 
 			const addRole = await addRoleToTier(guildId, tierName, role.name);
 

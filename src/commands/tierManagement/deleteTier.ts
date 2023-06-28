@@ -1,6 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { deleteTier } from '../../database/dataRepository/tierRepository';
 import tier from '../../database/models/tier';
+import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
+import { verifyBotChannel } from '../../lib/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -13,10 +15,16 @@ module.exports = {
 	isDevelopment: true,
 
 	async execute(interaction: any) {
-		const { guildId, options } = interaction;
+		const { guildId, options, channel } = interaction;
 
 		const tierName = options.getString('tier_name');
-		console.log('tier name: ' + tierName);
+
+		const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+		if (!checkBotChannel) {
+			interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+			return;
+		}
 
 		const removeTier = await deleteTier(guildId, tierName);
 

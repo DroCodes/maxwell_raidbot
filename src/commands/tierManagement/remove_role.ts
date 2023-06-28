@@ -1,5 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { removeRoleFromTier } from '../../database/dataRepository/tierRepository';
+import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
+import { verifyBotChannel } from '../../lib/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -19,7 +21,14 @@ module.exports = {
 	isDevelopment: true,
 
 	async execute(interaction: any) {
-		const { guildId, options } = interaction;
+		const { guildId, options, channel } = interaction;
+
+		const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+		if (!checkBotChannel) {
+			interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+			return;
+		}
 
 		const tier = options.getString('tier_name');
 		const role = options.getRole('role_name');

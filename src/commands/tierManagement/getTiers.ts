@@ -1,6 +1,8 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { findAllTiers } from '../../database/dataRepository/tierRepository';
 import tier from '../../database/models/tier';
+import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
+import { verifyBotChannel } from '../../lib/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -11,7 +13,14 @@ module.exports = {
 
 	async execute(interaction: any) {
 		try {
-			const { guildId } = interaction;
+			const { guildId, channel } = interaction;
+
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				return;
+			}
 
 			const getAllTiers = await findAllTiers(guildId);
 
