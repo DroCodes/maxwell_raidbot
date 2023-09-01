@@ -6,7 +6,6 @@ interface IRaidAttributes {
     info?: string,
     raidLead?: string
     raidTier?: string,
-    // raidRoles?: number[];
     tanks?: string;
     healers?: string;
     dps?: string;

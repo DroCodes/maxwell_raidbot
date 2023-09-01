@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
 import { verifyRaidExists } from '../../lib/verification/raidVerification';
 import { saveRaidDate, saveRaidLead } from '../../database/dataRepository/raidRepository';
-import { convertToUTC } from '../../lib/dateHelpers/dateFormater';
+import { parseDate } from '../../lib/dateHelpers/dateFormater';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -42,7 +42,7 @@ module.exports = {
 				return;
 			}
 
-			const convertTime = convertToUTC(raidDate);
+			const convertTime = parseDate(raidDate);
 
 			const addDate = await saveRaidDate(guildId, raidName, convertTime);
 

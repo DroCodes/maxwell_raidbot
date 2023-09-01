@@ -6,7 +6,7 @@ import {
 	saveRaidRoles,
 	saveRaidTier,
 } from '../../database/dataRepository/raidRepository';
-import { convertToUTC } from '../../lib/dateHelpers/dateFormater';
+import { parseDate } from '../../lib/dateHelpers/dateFormater';
 import { verifyTierExists } from '../../lib/verification/tierVerification';
 
 module.exports = {
@@ -46,7 +46,7 @@ module.exports = {
 				return;
 			}
 
-			const convertDate = convertToUTC(raidDate);
+			const convertDate = parseDate(raidDate);
 			const saveDate = saveRaidDate(guildId, raidName, convertDate);
 
 			if (!saveDate) {

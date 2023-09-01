@@ -7,16 +7,16 @@ module.exports = {
 	async execute(interaction: any) {
 		if (!interaction.isChatInputCommand()) return;
 
-		const { guildId, channel } = interaction;
-
-		const botChannel = await verifyBotChannel(guildId, channel.id);
-
-		if (!botChannel) {
-			interaction.reply('this is not the bot channel');
-			return;
-		}
-
 		if (interaction.commandName === 'add_info') {
+			const { guildId, channel } = interaction;
+
+			const botChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!botChannel) {
+				interaction.reply('this is not the bot channel');
+				return;
+			}
+
 			const modal = new ModalBuilder()
 				.setCustomId('info')
 				.setTitle('Raid Info');

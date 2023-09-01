@@ -1,4 +1,15 @@
-const convertToUnixTime = (dateString: string) => {
+const convertToUnixTime = (date: Date) => {
+	// Get the Unix timestamp (in milliseconds) from the input Date object
+	const unixTime = date.getTime();
+
+	// Convert milliseconds to seconds
+	const unixTimeInSeconds = Math.floor(unixTime / 1000);
+
+	return unixTimeInSeconds;
+};
+
+
+const convertStringToUnixTime = (dateString: string) => {
 	// Extract components from the input string
 	const [mm_dd, hh_mm] = dateString.split(' ');
 	const [month, day] = mm_dd.split('-');
@@ -16,29 +27,14 @@ const convertToUnixTime = (dateString: string) => {
 	return unixTimeInSeconds;
 };
 
-function convertToUTC(dateString: string) {
-	// Extract components from the input string
+function parseDate(dateString: string): Date {
 	const [mm_dd, hh_mm] = dateString.split(' ');
 	const [month, day] = mm_dd.split('-');
 	const [hour, minute] = hh_mm.split(':');
+	const year = new Date().getFullYear();
 
-	// Create a new Date object with the extracted components (assumes current year)
-	const localDate = new Date(new Date().getFullYear(), Number(month) - 1, Number(day), Number(hour), Number(minute));
-
-	// Obtain the UTC values from the local Date object
-	const utcYear = localDate.getUTCFullYear();
-	const utcMonth = localDate.getUTCMonth() + 1;
-	const utcDay = localDate.getUTCDate();
-	const utcHour = localDate.getUTCHours();
-	const utcMinute = localDate.getUTCMinutes();
-
-	// Construct a new Date object with the UTC values
-	const utcDate = new Date(utcYear, utcMonth - 1, utcDay, utcHour, utcMinute);
-
-	// Format the UTC date as desired (e.g., ISO 8601 format)
-	const formattedDate = utcDate;
-
-	return formattedDate;
+	const date = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+	return date;
 }
 
-export { convertToUnixTime, convertToUTC };
+export { convertToUnixTime, convertStringToUnixTime, parseDate };
