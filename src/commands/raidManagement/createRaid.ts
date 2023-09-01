@@ -27,18 +27,18 @@ module.exports = {
 			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
 
 			if (!checkBotChannel) {
-				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				await interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
 				return;
 			}
 
 			const createNewRaid = await createRaid(guildId, raidName, raidInfo);
 
 			if (createNewRaid === null) {
-				interaction.reply({ content: 'There was an issue creating the raid, make sure the raid name does not exist already', ephemeral: true });
+				await interaction.reply({ content: 'There was an issue creating the raid, make sure the raid name does not exist already', ephemeral: true });
 				return;
 			}
 
-			interaction.reply({ content: `The raid ${raidName} was created`, ephemeral: true });
+			await interaction.reply({ content: `The raid ${raidName} was created`, ephemeral: true });
 		}
 		catch (err) {
 			console.error('there was an issue running this command');

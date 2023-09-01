@@ -1,5 +1,6 @@
 import RaidSettings from '../models/raidSettings';
 import RaidEmoji from '../models/raidEmoji';
+import raidEmoji from '../models/raidEmoji';
 
 const findRaidSettings = async (guildId: string) => {
 	try {
@@ -52,7 +53,7 @@ const saveRaidChannelGroup = async (guildId: string, channelId: string) => {
 	}
 };
 
-const saveSignUpEmoji = async (guildId: string, role: string, emoji: string) => {
+const saveRaidEmoji = async (guildId: string, role: string, emoji: string) => {
 	try {
 		const raidSettings = await findRaidSettings(guildId);
 		if (raidSettings === null || raidSettings === undefined) return null;
@@ -68,5 +69,20 @@ const saveSignUpEmoji = async (guildId: string, role: string, emoji: string) => 
 	}
 };
 
+const getRaidEmoji = async (raidSettingsId: number) => {
+	try {
+		const getEmoji = await raidEmoji.findAll({
+			where: {
+				RaidSettingsId: raidSettingsId,
+			},
+		});
 
-export { findRaidSettings, saveRaidChannelGroup, saveSignUpEmoji };
+		return getEmoji != null ? getEmoji : null;
+	}
+	catch (err) {
+		console.error('error getting role/emoji', err);
+	}
+};
+
+
+export { findRaidSettings, saveRaidChannelGroup, saveRaidEmoji, getRaidEmoji };

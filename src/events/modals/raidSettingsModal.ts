@@ -15,25 +15,25 @@ module.exports = {
 	async execute(interaction: any) {
 		if (!interaction.isChatInputCommand()) return;
 
-		const { guildId, channel, options } = interaction;
-
-		const botChannel = await verifyBotChannel(guildId, channel.id);
-
-		if (!botChannel) {
-			interaction.reply('this is not the bot channel');
-			return;
-		}
-
-		const raidNameInput = options.getString('raid_name');
-
-		const findRaid = await verifyRaidExists(guildId, raidNameInput);
-
-		if (!findRaid) {
-			interaction.reply({ content: `${raidNameInput} does not exist`, ephemeral: true });
-			return;
-		}
-
 		if (interaction.commandName === 'add_all_settings') {
+			const { guildId, channel, options } = interaction;
+
+			const botChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!botChannel) {
+				interaction.reply('this is not the bot channel');
+				return;
+			}
+
+			const raidNameInput = options.getString('raid_name');
+
+			const findRaid = await verifyRaidExists(guildId, raidNameInput);
+
+			if (!findRaid) {
+				interaction.reply({ content: `${raidNameInput} does not exist`, ephemeral: true });
+				return;
+			}
+
 			const modal = new ModalBuilder()
 				.setCustomId('allSettings')
 				.setTitle('Fill out all fields below');

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
-import { saveSignUpEmoji } from '../../database/dataRepository/raidSettingsRepository';
+import { saveRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -30,7 +30,7 @@ module.exports = {
 			const role = options.getRole('role');
 			const emoji = options.getString('emoji');
 
-			const addSignUpEmoji = await saveSignUpEmoji(guildId, role.name, emoji);
+			const addSignUpEmoji = await saveRaidEmoji(guildId, role.name, emoji);
 
 			if (addSignUpEmoji === null) {
 				interaction.reply('there was an issue saving the role and emoji');
