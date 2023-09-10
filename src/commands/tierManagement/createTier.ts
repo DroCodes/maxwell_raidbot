@@ -1,6 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { createTier } from '../../database/dataRepository/tierRepository';
-import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
 
 module.exports = {
@@ -16,6 +15,11 @@ module.exports = {
 			option.setName('role')
 				.setDescription('role to add')
 				.setRequired(true))
+		.addStringOption((option) =>
+			option.setName('raid_role')
+				.setDescription('the role associated (Tank, Dps...)')
+				.setRequired(true),
+		)
 		.addBooleanOption((option) =>
 			option.setName('is_restricted')
 				.setDescription('is this tier restricted by roles')
@@ -30,6 +34,7 @@ module.exports = {
 
 			const tierName = options.getString('tier_name');
 			const role = options.getRole('role');
+			const raidRole = options.getString('raid_role');
 			const isRestricted = options.getBoolean('is_restricted');
 
 			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
@@ -41,7 +46,7 @@ module.exports = {
 
 			const formatTierName = tierName.replace(' ', '-');
 
-			const saveTier = await createTier(guildId, formatTierName, role.name, isRestricted);
+			const saveTier = await createTier(guildId, formatTierName, role.name, raidRole, isRestricted);
 
 			if (!saveTier) {
 				interaction.reply(`There was an issue saving the tier, please make a tier doesn't already exist with the name ${tierName}.`);

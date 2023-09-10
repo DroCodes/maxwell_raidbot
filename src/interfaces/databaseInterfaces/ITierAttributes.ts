@@ -4,6 +4,7 @@ interface ITierAttributes {
     id?: number;
     tierName: string;
     roleName: string[];
+    raidRole: string[];
     isRestricted: boolean | null;
     GuildSettingsId: string;
 }

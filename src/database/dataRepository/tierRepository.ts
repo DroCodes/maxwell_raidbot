@@ -28,7 +28,7 @@ const findAllTiers = async (guildId: string) => {
 	}
 };
 
-const createTier = async (guildId: string, tierName: string, roleName: string, isRestricted: boolean | null) => {
+const createTier = async (guildId: string, tierName: string, roleName: string, raidRole: string, isRestricted: boolean | null) => {
 	try {
 		if (isRestricted === null) {
 			isRestricted = false;
@@ -42,6 +42,7 @@ const createTier = async (guildId: string, tierName: string, roleName: string, i
 			defaults: {
 				tierName: tierName,
 				roleName: [roleName],
+				raidRole: [raidRole],
 				GuildSettingsId: guildId,
 				isRestricted: isRestricted,
 			},
@@ -54,13 +55,14 @@ const createTier = async (guildId: string, tierName: string, roleName: string, i
 	}
 };
 
-const addRoleToTier = async (guildId: string, tierName: string, role: string) => {
+const addRoleToTier = async (guildId: string, tierName: string, role: string, raidRole: string) => {
 	try {
 		const getTier = await findTier(guildId, tierName);
 		if (getTier === null || getTier === undefined) return null;
 
 		const addRole = await Tier.update({
 			roleName: sequelize.fn('array_append', sequelize.col('roleName'), role),
+			raidRole: sequelize.fn('array_append', sequelize.col('raidRole'), raidRole),
 		},
 		{
 			where: {

@@ -1,6 +1,9 @@
 import { sequelize } from './index';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { DataTypes } from 'sequelize';
+import RaidSettings from './raidSettings';
+import RaidEmoji from './raidEmoji';
+import Roster from './roster';
 
 const Raid = sequelize.define<IRaidInstance>(
 	'Raid',
@@ -69,5 +72,18 @@ const Raid = sequelize.define<IRaidInstance>(
 		},
 	},
 );
+
+Raid.hasOne(Roster, {
+	sourceKey: 'id',
+	foreignKey: 'raidId',
+	as: 'Roster',
+	onDelete: 'CASCADE',
+});
+
+Roster.belongsTo(Raid, {
+	foreignKey: 'raidId',
+	as: 'Raid',
+	onDelete: 'CASCADE',
+});
 
 export default Raid;
