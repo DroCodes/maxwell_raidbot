@@ -23,6 +23,11 @@ const Tier = sequelize.define < ITierInstance > (
 			type: DataTypes.ARRAY(DataTypes.TEXT),
 		},
 
+		raidRole: {
+			allowNull: true,
+			type: DataTypes.ARRAY(DataTypes.TEXT),
+		},
+
 		isRestricted: {
 			allowNull: true,
 			defaultValue: false,

@@ -7,6 +7,7 @@ import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttribut
 import { convertToUnixTime } from '../../lib/dateHelpers/dateFormater';
 import raidEmoji from '../../database/models/raidEmoji';
 import { IRaidSettingsInstance } from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes';
+import { saveRoster } from '../../database/dataRepository/rosterRepository';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -68,6 +69,14 @@ module.exports = {
 		if (raid?.raidDateTime != null) {
 			const convertDate = convertToUnixTime(raid.raidDateTime).toString();
 			infoEmbed.addFields({ name: 'Raid Info:', value:`<t:${convertDate}>` });
+		}
+
+		if (raid.id != null) {
+			const createRoster = await saveRoster(raid.id, raidName);
+
+			if (createRoster === null) {
+				interaction.reply({ content: 'Unable to create roster, please try again', ephemeral: true });
+			}
 		}
 
 		const rosterEmbed = new EmbedBuilder()

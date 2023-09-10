@@ -16,7 +16,13 @@ module.exports = {
 		.addRoleOption((option) =>
 			option.setName('role')
 				.setDescription('role to add')
-				.setRequired(true)),
+				.setRequired(true))
+		.addStringOption((option) =>
+			option.setName('raid_role')
+				.setDescription('the role associated (Tank, Dps...)')
+				.setRequired(true),
+		),
+
 
 	isDevelopment: true,
 
@@ -26,6 +32,7 @@ module.exports = {
 
 			const tierName = options.getString('tier_name');
 			const role = options.getRole('role');
+			const raidRole = options.getString('raid_role');
 
 			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
 
@@ -34,7 +41,7 @@ module.exports = {
 				return;
 			}
 
-			const addRole = await addRoleToTier(guildId, tierName, role.name);
+			const addRole = await addRoleToTier(guildId, tierName, role.name, raidRole);
 
 			if (addRole === null) {
 				interaction.reply('there was an issue adding the role to tier, please make sure tier exists');
