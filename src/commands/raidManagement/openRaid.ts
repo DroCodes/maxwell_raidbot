@@ -32,6 +32,7 @@ module.exports = {
 		}
 
 		const checkRaidExists = await verifyRaidExists(guildId, raidName);
+		console.log(checkRaidExists);
 
 		if (!checkRaidExists) {
 			interaction.reply({ content: `Raid named ${raidName} does not exist`, ephemeral: true });
@@ -75,7 +76,8 @@ module.exports = {
 			const createRoster = await saveRoster(raid.id, raidName);
 
 			if (createRoster === null) {
-				interaction.reply({ content: 'Unable to create roster, please try again', ephemeral: true });
+				// interaction.reply({ content: 'Unable to create roster, please try again', ephemeral: true });
+				console.log('Unable to create main roster');
 			}
 		}
 
