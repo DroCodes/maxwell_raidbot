@@ -47,7 +47,7 @@ module.exports = {
 		const guildId = reaction.message.guild.id;
 		const channelName = reaction.message.channel.name;
 		const channelId = reaction.message.channel.id;
-		const userReaction = user.username;
+		const username = user.username;
 		const reactionEmoji = reaction.emoji.name;
 		let tank;
 		let healer;
@@ -156,7 +156,7 @@ module.exports = {
 
 		if (findMainRoster != null) {
 			const signedUpAsTank = findMainRoster.tanks?.filter(t => {
-				return t === userReaction;
+				return t === username;
 			});
 
 			console.log(signedUpAsTank);
@@ -166,7 +166,7 @@ module.exports = {
 			}
 
 			const signedUpAsHealer = findMainRoster.healers?.filter(h => {
-				return h === userReaction;
+				return h === username;
 			});
 
 			if (signedUpAsHealer != undefined && signedUpAsHealer.length != 0) {
@@ -176,7 +176,7 @@ module.exports = {
 			console.log(signedUpAsHealer);
 
 			const signedUpAsDps = findMainRoster.dps?.filter(d => {
-				return d === userReaction;
+				return d === username;
 			});
 
 			if (signedUpAsDps != undefined && signedUpAsDps.length != 0) {
@@ -184,9 +184,9 @@ module.exports = {
 			}
 		}
 
-		const checkOverflowTank = findOverflowRoster?.tanks?.indexOf(userReaction);
-		const checkOverflowHealer = findOverflowRoster?.healers?.indexOf(userReaction);
-		const checkOverflowDps = findOverflowRoster?.dps?.indexOf(userReaction);
+		const checkOverflowTank = findOverflowRoster?.tanks?.indexOf(username);
+		const checkOverflowHealer = findOverflowRoster?.healers?.indexOf(username);
+		const checkOverflowDps = findOverflowRoster?.dps?.indexOf(username);
 
 		if (tank) {
 			if (signedUp?.isSignedUp === true && signedUp.role === 'tank') {
@@ -195,17 +195,17 @@ module.exports = {
 			}
 
 			if (signedUp?.isSignedUp === true && signedUp.role != 'tank') {
-				await removeHealerFromRoster(<number>roster?.id, userReaction);
-				await removeDpsFromRoster(<number>roster?.id, userReaction);
+				await removeHealerFromRoster(<number>roster?.id, username);
+				await removeDpsFromRoster(<number>roster?.id, username);
 
 				signedUp = { isSignedUp: null, role: null };
 			}
 			if (findMainRoster === null) {
-				await addTankToRoster(<number>roster?.id, userReaction, 'tank');
+				await addTankToRoster(<number>roster?.id, username, 'tank');
 				console.log('main roster null added tank');
 			}
 			else if (<number>findMainRoster?.tanks?.length != Number(raid.tanks)) {
-				await addTankToRoster(<number>roster?.id, userReaction, 'tank');
+				await addTankToRoster(<number>roster?.id, username, 'tank');
 				console.log('added tank');
 			}
 			else {
@@ -213,12 +213,12 @@ module.exports = {
 				if (findOverflowRoster === null || checkOverflowTank === -1) {
 					console.log('added to overflow');
 					console.log(checkOverflowTank);
-					await addTankToOverflow(<number>roster?.id, userReaction, 'tank');
+					await addTankToOverflow(<number>roster?.id, username, 'tank');
 				}
 
 				if (checkOverflowHealer != -1 || checkOverflowDps != -1) {
-					await removeHealerFromOverflow(<number>roster?.id, userReaction);
-					await removeDpsFromOverflow(<number>roster?.id, userReaction);
+					await removeHealerFromOverflow(<number>roster?.id, username);
+					await removeDpsFromOverflow(<number>roster?.id, username);
 				}
 			}
 		}
@@ -230,18 +230,18 @@ module.exports = {
 			}
 
 			if (signedUp?.isSignedUp === true && signedUp.role != 'healer') {
-				await removeTankFromRoster(<number>roster?.id, userReaction);
-				await removeDpsFromRoster(<number>roster?.id, userReaction);
+				await removeTankFromRoster(<number>roster?.id, username);
+				await removeDpsFromRoster(<number>roster?.id, username);
 
 				signedUp = { isSignedUp: null, role: null };
 			}
 
 			if (findMainRoster === null) {
-				await addHealerToRoster(<number>roster?.id, userReaction, 'healer');
+				await addHealerToRoster(<number>roster?.id, username, 'healer');
 				console.log('main roster null added healer');
 			}
 			else if (<number>findMainRoster?.healers?.length != Number(raid.healers)) {
-				await addHealerToRoster(<number>roster?.id, userReaction, 'healer');
+				await addHealerToRoster(<number>roster?.id, username, 'healer');
 				console.log('added healer');
 			}
 			else {
@@ -249,12 +249,12 @@ module.exports = {
 				if (findOverflowRoster === null || checkOverflowHealer === -1) {
 					console.log('added to overflow');
 					console.log(checkOverflowTank);
-					await addHealerToOverflow(<number>roster?.id, userReaction, 'healer');
+					await addHealerToOverflow(<number>roster?.id, username, 'healer');
 				}
 
 				if (checkOverflowTank != -1 || checkOverflowDps != -1) {
-					await removeTankFromOverflow(<number>roster?.id, userReaction);
-					await removeDpsFromOverflow(<number>roster?.id, userReaction);
+					await removeTankFromOverflow(<number>roster?.id, username);
+					await removeDpsFromOverflow(<number>roster?.id, username);
 				}
 			}
 		}
@@ -266,18 +266,18 @@ module.exports = {
 			}
 
 			if (signedUp?.isSignedUp === true && signedUp.role != 'dps') {
-				await removeTankFromRoster(<number>roster?.id, userReaction);
-				await removeHealerFromRoster(<number>roster?.id, userReaction);
+				await removeTankFromRoster(<number>roster?.id, username);
+				await removeHealerFromRoster(<number>roster?.id, username);
 
 				signedUp = { isSignedUp: null, role: null };
 			}
 
 			if (findMainRoster === null) {
-				await addDpsToRoster(<number>roster?.id, userReaction, 'dps');
+				await addDpsToRoster(<number>roster?.id, username, 'dps');
 				console.log('main roster null added dps');
 			}
 			else if (<number>findMainRoster?.dps?.length != Number(raid.dps)) {
-				await addDpsToRoster(<number>roster?.id, userReaction, 'dps');
+				await addDpsToRoster(<number>roster?.id, username, 'dps');
 				console.log('added dps');
 			}
 			else {
@@ -285,12 +285,12 @@ module.exports = {
 				if (findOverflowRoster === null || checkOverflowDps === -1) {
 					console.log('added to overflow');
 					console.log(checkOverflowTank);
-					await addDpsToOverflow(<number>roster?.id, userReaction, 'dps');
+					await addDpsToOverflow(<number>roster?.id, username, 'dps');
 				}
 
 				if (checkOverflowTank != -1 || checkOverflowHealer != -1) {
-					await removeTankFromOverflow(<number>roster?.id, userReaction);
-					await removeHealerFromOverflow(<number>roster?.id, userReaction);
+					await removeTankFromOverflow(<number>roster?.id, username);
+					await removeHealerFromOverflow(<number>roster?.id, username);
 				}
 			}
 		}

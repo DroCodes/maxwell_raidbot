@@ -6,8 +6,9 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "start-dev": "nodemon src/index.ts",
-    "dev-commands": "ts-node src/deployDevCommands.ts",
-    "global-commands": "ts-node src/deployGlobalCommands.ts",
+    "dev-commands": "ts-node src/scripts/deployDevCommands.ts",
+    "global-commands": "ts-node src/scripts/deployGlobalCommands.ts",
+    "delete-commands": "ts-node src/scripts/deleteCommands.ts",
     "update-db": "ts-node src/database/updateDatabase.ts",
     "test-date": "ts-node src/lib/dateHelpers/dateFormater.ts"
   },
