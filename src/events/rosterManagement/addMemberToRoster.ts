@@ -55,7 +55,7 @@ module.exports = {
 		let signedUp;
 		let isQualified = false;
 
-		console.log(signedUp);
+		console.log('test ' + signedUp);
 
 		const member = reaction.message.guild.members.cache.get(user.id);
 
@@ -65,7 +65,7 @@ module.exports = {
 		}
 
 		// Extract the role names using map
-		const userRoleNames = member.roles.cache.map((role:any) => role.name);
+		const userRoleNames = member.roles.cache.map((role: any) => role.name);
 
 		const guild = await findGuildById(guildId);
 
@@ -76,10 +76,12 @@ module.exports = {
 		const raid = await findRaid(guildId, channelName) as IRaidInstance;
 
 		if (raid === null) {
+			console.log('Cannot find raid');
 			return;
 		}
 
 		if (channelId != raid.raidChannelId) {
+			console.log('Cannot find channel');
 			return;
 		}
 
@@ -88,6 +90,7 @@ module.exports = {
 		const raidTiers = await findTier(guildId, <string>raid.raidTier) as ITierInstance;
 
 		if (raidTiers === null) {
+			console.log('Cannot find Tiers');
 			return;
 		}
 
@@ -158,8 +161,6 @@ module.exports = {
 			const signedUpAsTank = findMainRoster.tanks?.filter(t => {
 				return t === username;
 			});
-
-			console.log(signedUpAsTank);
 
 			if (signedUpAsTank != undefined && signedUpAsTank.length != 0) {
 				signedUp = { isSignedUp: true, role: 'tank' };

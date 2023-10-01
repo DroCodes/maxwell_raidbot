@@ -4,6 +4,7 @@ import MainRoster from '../models/mainRoster';
 
 const addTankToRoster = async (rosterId: number, user: string, role:string) => {
 	try {
+		console.log('test inside of addtank to roster');
 		const [createRoster, created] = await mainRoster.findOrCreate({
 			where: {
 				id: rosterId,
@@ -25,7 +26,7 @@ const addTankToRoster = async (rosterId: number, user: string, role:string) => {
 
 			return created ? updateMainRoster : null;
 		}
-
+		console.log('test roster created' + createRoster);
 		return created ? createRoster : null;
 	}
 	catch (e) {
@@ -171,4 +172,19 @@ const removeDpsFromRoster = async (id: number, user: string) => {
 	}
 };
 
-export { addTankToRoster, addHealerToRoster, addDpsToRoster, getMainRoster, removeTankFromRoster, removeHealerFromRoster, removeDpsFromRoster };
+const deleteMainRoster = async (rosterId: number) => {
+	try {
+		const del = await MainRoster.destroy({
+			where: {
+				id: rosterId,
+			},
+		});
+
+		return !!del;
+	}
+	catch (e) {
+		console.error('error deleting main Roster ' + e);
+	}
+};
+
+export { addTankToRoster, addHealerToRoster, addDpsToRoster, getMainRoster, removeTankFromRoster, removeHealerFromRoster, removeDpsFromRoster, deleteMainRoster };
