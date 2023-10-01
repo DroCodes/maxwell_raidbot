@@ -1,5 +1,6 @@
 import { sequelize } from '../models';
 import OverflowRoster from '../models/overflowRoster';
+import MainRoster from '../models/mainRoster';
 
 const addTankToOverflow = async (rosterId: number, user: string, role:string) => {
 	try {
@@ -170,4 +171,19 @@ const removeDpsFromOverflow = async (id: number, user: string) => {
 	}
 };
 
-export { addTankToOverflow, addHealerToOverflow, addDpsToOverflow, getOverflow, removeTankFromOverflow, removeHealerFromOverflow, removeDpsFromOverflow };
+const deleteOverflow = async (rosterId: number) => {
+	try {
+		const del = await OverflowRoster.destroy({
+			where: {
+				id: rosterId,
+			},
+		});
+
+		return !!del;
+	}
+	catch (e) {
+		console.error('error deleting main Roster ' + e);
+	}
+};
+
+export { addTankToOverflow, addHealerToOverflow, addDpsToOverflow, getOverflow, removeTankFromOverflow, removeHealerFromOverflow, removeDpsFromOverflow, deleteOverflow };

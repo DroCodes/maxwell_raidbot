@@ -22,31 +22,6 @@ const Roster = sequelize.define<IRosterInstance>(
 			type: DataTypes.TEXT,
 		},
 
-		// mainRoster: {
-		// 	type: DataTypes.ARRAY(DataTypes.JSONB),
-		// 	allowNull: true,
-		// },
-		//
-		// overFlowRoster: {
-		// 	type: DataTypes.ARRAY(DataTypes.JSONB),
-		// 	allowNull: true,
-		// },
-
-		// tanks: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: true,
-		// },
-		//
-		// healers: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: true,
-		// },
-		//
-		// dps: {
-		// 	type: DataTypes.INTEGER,
-		// 	allowNull: true,
-		// },
-
 		raidId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
