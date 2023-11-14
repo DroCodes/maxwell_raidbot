@@ -1,7 +1,12 @@
 import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { verifyRaidExists } from '../../lib/verification/raidVerification';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
-import { findRaid, saveRaidChannelId } from '../../database/dataRepository/raidRepository';
+import {
+	findRaid,
+	saveInfoMessage,
+	saveRaidChannelId,
+	saveRosterMessage,
+} from '../../database/dataRepository/raidRepository';
 import { findRaidSettings, getRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { convertToUnixTime } from '../../lib/dateHelpers/dateFormater';
@@ -90,7 +95,11 @@ module.exports = {
 				'DPS\n' });
 
 		await channelCreate.send('@everyone');
-		const embedMsg = await channelCreate.send({ embeds: [infoEmbed, rosterEmbed] });
+		const infoMsg = await channelCreate.send({ embeds: [ infoEmbed ] });
+		const rosterMsg = await channelCreate.send({ embeds: [ rosterEmbed ] });
+
+		await saveInfoMessage(guildId, raidName, infoMsg.id);
+		await saveRosterMessage(guildId, raidName, rosterMsg.id);
 
 		const raidChannelThread = await channelCreate.threads.create({
 			name: `${raidName} discussion`,
@@ -105,7 +114,7 @@ module.exports = {
 		}
 
 		getEmoji?.forEach(e => {
-			embedMsg.react(e.emoji);
+			rosterMsg.react(e.emoji);
 		});
 
 		raidChannelThread.send('Thread message');

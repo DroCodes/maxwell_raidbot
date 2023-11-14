@@ -1,4 +1,4 @@
-import { Events } from 'discord.js';
+import { EmbedBuilder, Events } from 'discord.js';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { findTier } from '../../database/dataRepository/tierRepository';
@@ -22,6 +22,7 @@ import {
 	getOverflow, removeDpsFromOverflow,
 	removeHealerFromOverflow, removeTankFromOverflow,
 } from '../../database/dataRepository/overflowRosterRepository';
+import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
 
 
 module.exports = {
@@ -192,7 +193,7 @@ module.exports = {
 		if (tank) {
 			if (signedUp?.isSignedUp === true && signedUp.role === 'tank') {
 				console.log('is already signed up as tank');
-				return;
+				// return;
 			}
 
 			if (signedUp?.isSignedUp === true && signedUp.role != 'tank') {
@@ -227,7 +228,6 @@ module.exports = {
 			if (signedUp?.isSignedUp === true && signedUp.role === 'healer') {
 				console.log('healer if' + ' ' + signedUp?.role);
 				console.log('is already signed up as healer');
-				return;
 			}
 
 			if (signedUp?.isSignedUp === true && signedUp.role != 'healer') {
@@ -263,7 +263,6 @@ module.exports = {
 			if (signedUp?.isSignedUp === true && signedUp.role === 'dps') {
 				console.log('dps if' + ' ' + signedUp?.role);
 				console.log('is already signed up as dps');
-				return;
 			}
 
 			if (signedUp?.isSignedUp === true && signedUp.role != 'dps') {
@@ -296,11 +295,34 @@ module.exports = {
 			}
 		}
 
-		console.log(signedUp?.role);
+		// let tankMessage = '';
+		//
+		// for (tank in findMainRoster?.tanks) {
+		// 	tankMessage = tank + '\n';
+		// }
+
+		try {
+			const getRosterRoles = await getMainRoster(<number>roster?.id);
+
+			const tankNames = getRosterRoles?.tanks || [];
+			const healerNames = getRosterRoles?.healers || [];
+			const dpsNames = getRosterRoles?.dps || [];
+
+			const tankList = tankNames.join('\n');
+			const healerList = healerNames.join('\n');
+			const dpsList = dpsNames.join('\n');
+
+			const targetMessage = await reaction.message.channel.messages.fetch(raid.rosterMsgId);
+
+			await editRosterMessage(tankList, healerList, dpsList, targetMessage);
+		}
+		catch (err) {
+			console.error('Error:', err);
+		}
+
 		signedUp = { isSignedUp: null, role: null };
-		console.log(signedUp);
 		console.log('end of method');
-		return;
+		// return;
 		/*
 		* TODO
 		*  Edit the embed

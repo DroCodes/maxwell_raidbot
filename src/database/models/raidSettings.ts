@@ -21,11 +21,6 @@ const RaidSettings = sequelize.define<IRaidSettingsInstance>(
 			type: DataTypes.TEXT,
 		},
 
-		// raidEmoji: {
-		//     allowNull: true,
-		//     type: DataTypes.ARRAY(DataTypes.JSONB),
-		// },
-
 		GuildSettingsId: {
 			allowNull: false,
 			type: DataTypes.TEXT,
