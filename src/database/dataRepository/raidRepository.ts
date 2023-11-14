@@ -209,4 +209,61 @@ const deleteRaid = async (guildId: string, raidName: string) => {
 	}
 };
 
-export { findRaid, findAllRaids, createRaid, saveInfo, saveRaidLead, saveRaidTier, saveRaidRoles, saveRaidDate, saveRaidChannelId, deleteRaid };
+const saveInfoMessage = async (guildId: string, raidName: string, infoMsgId: string) => {
+	try {
+		const updateTable = await Raid.update(
+			{
+				infoMsgId: infoMsgId,
+			},
+			{
+				where: {
+					GuildSettingsId: guildId,
+					raidName: raidName,
+				},
+			},
+		);
+
+		return updateTable.length > 0;
+	}
+	catch (err) {
+		console.error('There was an issue saving the info message ID', err);
+	}
+};
+
+const saveRosterMessage = async (guildId: string, raidName: string, rosterMsgId: string) => {
+	try {
+		const updateTable = await Raid.update(
+			{
+				rosterMsgId: rosterMsgId,
+			},
+			{
+				where: {
+					GuildSettingsId: guildId,
+					raidName: raidName,
+				},
+			},
+		);
+
+		return updateTable.length > 0;
+	}
+	catch (err) {
+		console.error('There was an issue saving the roster message ID', err);
+	}
+};
+
+// const getRosterMessage = async (guildId: string, raidName: string) => {
+// 	try {
+// 		const findRosterMsg = await Raid.findOne({
+// 			where: {
+// 				raidName: raidName,
+// 				GuildSettingsId: guildId,
+// 			},
+// 		});
+// 	}
+// 	catch (err) {
+// 		console.error('There was an issue retrieving the roster message ID', err);
+//
+// 	}
+// };
+
+export { findRaid, findAllRaids, createRaid, saveInfo, saveRaidLead, saveRaidTier, saveRaidRoles, saveRaidDate, saveRaidChannelId, deleteRaid, saveInfoMessage, saveRosterMessage };

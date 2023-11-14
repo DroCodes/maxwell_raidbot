@@ -1,4 +1,4 @@
-import { Events } from 'discord.js';
+import { EmbedBuilder, Events } from 'discord.js';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { findRaidSettings, getRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
@@ -17,6 +17,7 @@ import {
 } from '../../database/dataRepository/overflowRosterRepository';
 import { getEmojiName } from '../../lib/emojiFormat';
 import { IRaidEmojiInstance } from '../../interfaces/databaseInterfaces/IRaidEmojiAttributes';
+import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
 
 module.exports = {
 	name: Events.MessageReactionRemove,
@@ -147,7 +148,7 @@ module.exports = {
 			}
 		}
 		else if (dps) {
-			if (overflowRoster?.tanks != null && mainRoster?.dps?.indexOf(username) != -1) {
+			if (mainRoster?.dps?.indexOf(username) != -1) {
 				console.log(`removed ${username} from dps role in main roster`);
 				await removeDpsFromRoster(<number>roster.id, username);
 				isRemoved = true;
@@ -162,6 +163,26 @@ module.exports = {
 				await removeTankFromOverflow(<number>roster.id, overflowRoster.tanks[0]);
 				console.log(`Moved ${overflowRoster.tanks[0]} from overflow to main roster as tank`);
 			}
+		}
+
+		try {
+			const getRosterRoles = await getMainRoster(<number>roster?.id);
+
+			const tankNames = getRosterRoles?.tanks || [];
+			const healerNames = getRosterRoles?.healers || [];
+			const dpsNames = getRosterRoles?.dps || [];
+
+			const tankList = tankNames.join('\n');
+			const healerList = healerNames.join('\n');
+			const dpsList = dpsNames.join('\n');
+
+			const targetMessage = await reaction.message.channel.messages.fetch(raid.rosterMsgId);
+
+			await editRosterMessage(tankList, healerList, dpsList, targetMessage);
+
+		}
+		catch (err) {
+			console.error('Error:', err);
 		}
 
 		console.log('end of method');
