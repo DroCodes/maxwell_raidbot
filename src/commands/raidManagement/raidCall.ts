@@ -59,7 +59,9 @@ module.exports = {
 		});
 
 		if (overFlowRoster !== undefined && overFlowRoster !== null) {
-			raidCallMessage += '\n__Overflow Roster:__\n';
+			if (overFlowRoster.tanks === null) {
+				overFlowRoster.tanks = [];
+			}
 
 			const overFlowRosterMembers = overFlowRoster.tanks?.concat(<string[]>overFlowRoster.healers, <string[]>overFlowRoster.dps);
 
