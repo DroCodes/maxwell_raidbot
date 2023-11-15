@@ -295,12 +295,6 @@ module.exports = {
 			}
 		}
 
-		// let tankMessage = '';
-		//
-		// for (tank in findMainRoster?.tanks) {
-		// 	tankMessage = tank + '\n';
-		// }
-
 		try {
 			const getRosterRoles = await getMainRoster(<number>roster?.id);
 
@@ -322,10 +316,5 @@ module.exports = {
 
 		signedUp = { isSignedUp: null, role: null };
 		console.log('end of method');
-		// return;
-		/*
-		* TODO
-		*  Edit the embed
-		* */
 	},
 };
