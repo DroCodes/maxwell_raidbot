@@ -66,15 +66,20 @@ module.exports = {
 		}
 
 		const infoEmbed = new EmbedBuilder()
-			.setTitle(raidName);
+			.setTitle('Raid Info');
+
+		if (raid?.raidLead != null) {
+			const user = await guild.members.cache.find((member:any) => member.user.username === raid.raidLead);
+			infoEmbed.addFields({ name: '\n__Raid Lead__:', value: `<@${user.id}>` });
+		}
 
 		if (raid?.info != null) {
-			infoEmbed.addFields({ name: 'Raid Info:', value: raid.info });
+			infoEmbed.addFields({ name: '__Raid Info__:', value: raid.info });
 		}
 
 		if (raid?.raidDateTime != null) {
 			const convertDate = convertToUnixTime(raid.raidDateTime).toString();
-			infoEmbed.addFields({ name: 'Raid Info:', value:`<t:${convertDate}>` });
+			infoEmbed.addFields({ name: '__Local Raid Time__:', value:`<t:${convertDate}>` });
 		}
 
 		if (raid.id != null) {
@@ -89,10 +94,10 @@ module.exports = {
 		const rosterEmbed = new EmbedBuilder()
 			.setTitle('Roster:');
 
-		rosterEmbed.addFields({ name: 'raider, emoji', value: 'raid message', inline: true });
+		// rosterEmbed.addFields({ name: 'raider, emoji', value: 'raid message', inline: true });
 		rosterEmbed.addFields({ name: '__Counts By Roles:__', value: 'TANK:\n' +
 				'HEALER:\n' +
-				'DPS\n' });
+				'DPS:\n' });
 
 		await channelCreate.send('@everyone');
 		const infoMsg = await channelCreate.send({ embeds: [ infoEmbed ] });

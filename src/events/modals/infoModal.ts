@@ -1,5 +1,7 @@
 import { ActionRowBuilder, Events, ModalActionRowComponentBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from 'discord.js';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { findRaid } from '../../database/dataRepository/raidRepository';
+import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 
 module.exports = {
 	name: Events.InteractionCreate,
