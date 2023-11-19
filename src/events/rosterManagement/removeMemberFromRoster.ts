@@ -74,16 +74,11 @@ module.exports = {
 			return;
 		}
 
-		const overflowRoster = await getOverflow(<number>roster.id);
+		let overflowRoster = await getOverflow(<number>roster.id);
 
 		if (overflowRoster === null) {
 			console.log('overflow roster does not exist ' + raid.raidName);
 		}
-
-
-		/* TODO
-		* check user reaction removed to make sure they are signed up as that role.
-		* */
 
 		const raidEmoji = await getRaidEmoji(<number>raidSettings?.id) as IRaidEmojiInstance[];
 
@@ -96,15 +91,12 @@ module.exports = {
 
 			if (reactionEmoji === formatEmoji) {
 				if (raidEmoji[i].role.toLowerCase() === 'tank') {
-					console.log('tank is true');
 					tank = true;
 				}
 				else if (raidEmoji[i].role.toLowerCase() === 'healer') {
-					console.log('healer is true');
 					healer = true;
 				}
 				else if (raidEmoji[i].role.toLowerCase() === 'dps') {
-					console.log('dps is true');
 					dps = true;
 				}
 			}
@@ -141,10 +133,10 @@ module.exports = {
 				await removeHealerFromOverflow(<number>roster.id, username);
 			}
 
-			if (isRemoved && overflowRoster?.tanks != null) {
-				await addTankToRoster(<number>roster?.id, overflowRoster.tanks[0], 'tank');
-				await removeTankFromOverflow(<number>roster.id, overflowRoster.tanks[0]);
-				console.log(`Moved ${overflowRoster.tanks[0]} from overflow to main roster as tank`);
+			if (isRemoved && overflowRoster?.healers != null) {
+				await addTankToRoster(<number>roster?.id, overflowRoster.healers[0], 'tank');
+				await removeTankFromOverflow(<number>roster.id, overflowRoster.healers[0]);
+				console.log(`Moved ${overflowRoster.healers[0]} from overflow to main roster as healer`);
 			}
 		}
 		else if (dps) {
@@ -158,15 +150,16 @@ module.exports = {
 				await removeDpsFromOverflow(<number>roster.id, username);
 			}
 
-			if (isRemoved && overflowRoster?.tanks != null) {
-				await addTankToRoster(<number>roster?.id, overflowRoster.tanks[0], 'tank');
-				await removeTankFromOverflow(<number>roster.id, overflowRoster.tanks[0]);
-				console.log(`Moved ${overflowRoster.tanks[0]} from overflow to main roster as tank`);
+			if (isRemoved && overflowRoster?.dps != null) {
+				await addTankToRoster(<number>roster?.id, overflowRoster.dps[0], 'tank');
+				await removeTankFromOverflow(<number>roster.id, overflowRoster.dps[0]);
+				console.log(`Moved ${overflowRoster.dps[0]} from overflow to main roster as dps`);
 			}
 		}
 
 		try {
 			const getRosterRoles = await getMainRoster(<number>roster?.id);
+			overflowRoster = await getOverflow(<number>roster?.id);
 
 			const tankNames = getRosterRoles?.tanks || [];
 			const healerNames = getRosterRoles?.healers || [];
@@ -176,15 +169,33 @@ module.exports = {
 			const healerList = healerNames.join('\n');
 			const dpsList = dpsNames.join('\n');
 
+			const masterList = tankList + '\n' + healerList + '\n' + dpsList;
+
+			const overFlowTanks = overflowRoster?.tanks || [];
+			const overFlowHealers = overflowRoster?.healers || [];
+			const overFlowDps = overflowRoster?.dps || [];
+
+			const overFlowTankList = overFlowTanks.join('\n');
+			const overFlowHealerList = overFlowHealers.join('\n');
+			const overFlowDpsList = overFlowDps.join('\n');
+
+			const overFlowList = overFlowTankList + '\n' + overFlowHealerList + '\n' + overFlowDpsList;
+
+			const raidSize = Number(raid.tanks) + Number(raid.healers) + Number(raid.dps);
+
+			const overflowRosterCount = overFlowTanks.length + overFlowHealers.length + overFlowDps.length;
+
+			const rosterCount = tankNames.length + healerNames.length + dpsNames.length + '/' + raidSize + '( +' + overflowRosterCount + ')' + ' total signups';
+
 			const targetMessage = await reaction.message.channel.messages.fetch(raid.rosterMsgId);
 
-			await editRosterMessage(tankList, healerList, dpsList, targetMessage);
+			const rosterEmbed = editRosterMessage(masterList, overFlowList, [tankNames.length, healerNames.length, dpsNames.length], rosterCount.toString());
+
+			await targetMessage.edit({ embeds: [rosterEmbed] });
 
 		}
 		catch (err) {
 			console.error('Error:', err);
 		}
-
-		console.log('end of method');
 	},
 };
