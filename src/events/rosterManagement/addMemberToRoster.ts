@@ -56,8 +56,6 @@ module.exports = {
 		let signedUp;
 		let isQualified = false;
 
-		console.log('test ' + signedUp);
-
 		const member = reaction.message.guild.members.cache.get(user.id);
 
 		if (!member) {
@@ -112,22 +110,18 @@ module.exports = {
 
 			if (reactionEmoji === formatEmoji) {
 				if (raidEmoji[i].role.toLowerCase() === 'tank') {
-					console.log('tank is true');
 					tank = true;
 				}
 				else if (raidEmoji[i].role.toLowerCase() === 'healer') {
-					console.log('healer is true');
 					healer = true;
 				}
 				else if (raidEmoji[i].role.toLowerCase() === 'dps') {
-					console.log('dps is true');
 					dps = true;
 				}
 			}
 		}
 
 		for (let i = 0; i < userRoleNames.length; i++) {
-			console.log('test ' + userRoleNames[i]);
 			for (let j = 0; j < raidTiers.roleName.length; j++) {
 				if (tank) {
 					if (userRoleNames[i] === raidTiers.roleName[j] && raidTiers.raidRole[j] === 'tank') {
@@ -155,11 +149,11 @@ module.exports = {
 			return;
 		}
 
-		const findMainRoster = await getMainRoster(<number>roster?.id);
-		const findOverflowRoster = await getOverflow(<number>roster?.id);
+		let mainRoster = await getMainRoster(<number>roster?.id);
+		let overflowRoster = await getOverflow(<number>roster?.id);
 
-		if (findMainRoster != null) {
-			const signedUpAsTank = findMainRoster.tanks?.filter(t => {
+		if (mainRoster != null) {
+			const signedUpAsTank = mainRoster.tanks?.filter(t => {
 				return t === username;
 			});
 
@@ -167,7 +161,7 @@ module.exports = {
 				signedUp = { isSignedUp: true, role: 'tank' };
 			}
 
-			const signedUpAsHealer = findMainRoster.healers?.filter(h => {
+			const signedUpAsHealer = mainRoster.healers?.filter(h => {
 				return h === username;
 			});
 
@@ -177,7 +171,7 @@ module.exports = {
 
 			console.log(signedUpAsHealer);
 
-			const signedUpAsDps = findMainRoster.dps?.filter(d => {
+			const signedUpAsDps = mainRoster.dps?.filter(d => {
 				return d === username;
 			});
 
@@ -186,9 +180,9 @@ module.exports = {
 			}
 		}
 
-		const checkOverflowTank = findOverflowRoster?.tanks?.indexOf(username);
-		const checkOverflowHealer = findOverflowRoster?.healers?.indexOf(username);
-		const checkOverflowDps = findOverflowRoster?.dps?.indexOf(username);
+		const checkOverflowTank = overflowRoster?.tanks?.indexOf(username);
+		const checkOverflowHealer = overflowRoster?.healers?.indexOf(username);
+		const checkOverflowDps = overflowRoster?.dps?.indexOf(username);
 
 		if (tank) {
 			if (signedUp?.isSignedUp === true && signedUp.role === 'tank') {
@@ -202,17 +196,17 @@ module.exports = {
 
 				signedUp = { isSignedUp: null, role: null };
 			}
-			if (findMainRoster === null) {
+			if (mainRoster === null) {
 				await addTankToRoster(<number>roster?.id, username, 'tank');
 				console.log('main roster null added tank');
 			}
-			else if (<number>findMainRoster?.tanks?.length != Number(raid.tanks)) {
+			else if (<number>mainRoster?.tanks?.length != Number(raid.tanks)) {
 				await addTankToRoster(<number>roster?.id, username, 'tank');
 				console.log('added tank');
 			}
 			else {
 				console.log(checkOverflowTank);
-				if (findOverflowRoster === null || checkOverflowTank === -1) {
+				if (overflowRoster === null || checkOverflowTank === -1) {
 					console.log('added to overflow');
 					console.log(checkOverflowTank);
 					await addTankToOverflow(<number>roster?.id, username, 'tank');
@@ -237,17 +231,17 @@ module.exports = {
 				signedUp = { isSignedUp: null, role: null };
 			}
 
-			if (findMainRoster === null) {
+			if (mainRoster === null) {
 				await addHealerToRoster(<number>roster?.id, username, 'healer');
 				console.log('main roster null added healer');
 			}
-			else if (<number>findMainRoster?.healers?.length != Number(raid.healers)) {
+			else if (<number>mainRoster?.healers?.length != Number(raid.healers)) {
 				await addHealerToRoster(<number>roster?.id, username, 'healer');
 				console.log('added healer');
 			}
 			else {
 				console.log(checkOverflowHealer);
-				if (findOverflowRoster === null || checkOverflowHealer === -1) {
+				if (overflowRoster === null || checkOverflowHealer === -1) {
 					console.log('added to overflow');
 					console.log(checkOverflowTank);
 					await addHealerToOverflow(<number>roster?.id, username, 'healer');
@@ -272,17 +266,17 @@ module.exports = {
 				signedUp = { isSignedUp: null, role: null };
 			}
 
-			if (findMainRoster === null) {
+			if (mainRoster === null) {
 				await addDpsToRoster(<number>roster?.id, username, 'dps');
 				console.log('main roster null added dps');
 			}
-			else if (<number>findMainRoster?.dps?.length != Number(raid.dps)) {
+			else if (<number>mainRoster?.dps?.length != Number(raid.dps)) {
 				await addDpsToRoster(<number>roster?.id, username, 'dps');
 				console.log('added dps');
 			}
 			else {
 				console.log(checkOverflowDps);
-				if (findOverflowRoster === null || checkOverflowDps === -1) {
+				if (overflowRoster === null || checkOverflowDps === -1) {
 					console.log('added to overflow');
 					console.log(checkOverflowTank);
 					await addDpsToOverflow(<number>roster?.id, username, 'dps');
@@ -296,25 +290,45 @@ module.exports = {
 		}
 
 		try {
-			const getRosterRoles = await getMainRoster(<number>roster?.id);
+			mainRoster = await getMainRoster(<number>roster?.id);
+			overflowRoster = await getOverflow(<number>roster?.id);
 
-			const tankNames = getRosterRoles?.tanks || [];
-			const healerNames = getRosterRoles?.healers || [];
-			const dpsNames = getRosterRoles?.dps || [];
+			const tankNames = mainRoster?.tanks || [];
+			const healerNames = mainRoster?.healers || [];
+			const dpsNames = mainRoster?.dps || [];
 
 			const tankList = tankNames.join('\n');
 			const healerList = healerNames.join('\n');
 			const dpsList = dpsNames.join('\n');
 
+			const masterList = tankList + '\n' + healerList + '\n' + dpsList;
+
+			const overFlowTanks = overflowRoster?.tanks || [];
+			const overFlowHealers = overflowRoster?.healers || [];
+			const overFlowDps = overflowRoster?.dps || [];
+
+			const overFlowTankList = overFlowTanks.join('\n');
+			const overFlowHealerList = overFlowHealers.join('\n');
+			const overFlowDpsList = overFlowDps.join('\n');
+
+			const overFlowList = overFlowTankList + '\n' + overFlowHealerList + '\n' + overFlowDpsList;
+
+			const raidSize = Number(raid.tanks) + Number(raid.healers) + Number(raid.dps);
+
+			const overflowRosterCount = overFlowTanks.length + overFlowHealers.length + overFlowDps.length;
+
+			const rosterCount = tankNames.length + healerNames.length + dpsNames.length + '/' + raidSize + '( +' + overflowRosterCount + ')' + ' total signups';
+
 			const targetMessage = await reaction.message.channel.messages.fetch(raid.rosterMsgId);
 
-			await editRosterMessage(tankList, healerList, dpsList, targetMessage);
+			const rosterEmbed = editRosterMessage(masterList, overFlowList, [tankNames.length, healerNames.length, dpsNames.length], rosterCount.toString());
+
+			await targetMessage.edit({ embeds: [rosterEmbed] });
 		}
 		catch (err) {
 			console.error('Error:', err);
 		}
 
 		signedUp = { isSignedUp: null, role: null };
-		console.log('end of method');
 	},
 };

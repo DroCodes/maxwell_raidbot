@@ -13,6 +13,7 @@ import { convertToUnixTime } from '../../lib/dateHelpers/dateFormater';
 import raidEmoji from '../../database/models/raidEmoji';
 import { IRaidSettingsInstance } from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes';
 import { saveRoster } from '../../database/dataRepository/rosterRepository';
+import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -91,17 +92,17 @@ module.exports = {
 			}
 		}
 
-		const rosterEmbed = new EmbedBuilder()
-			.setTitle('Roster:');
-
-		// rosterEmbed.addFields({ name: 'raider, emoji', value: 'raid message', inline: true });
-		rosterEmbed.addFields({ name: '__Counts By Roles:__', value: 'TANK:\n' +
-				'HEALER:\n' +
-				'DPS:\n' });
+		// const rosterEmbed = new EmbedBuilder()
+		// 	.setTitle('Roster:');
+		//
+		// // rosterEmbed.addFields({ name: 'raider, emoji', value: 'raid message', inline: true });
+		// rosterEmbed.addFields({ name: '__Counts By Roles:__', value: 'TANK:\n' +
+		// 		'HEALER:\n' +
+		// 		'DPS:\n' });
 
 		await channelCreate.send('@everyone');
 		const infoMsg = await channelCreate.send({ embeds: [ infoEmbed ] });
-		const rosterMsg = await channelCreate.send({ embeds: [ rosterEmbed ] });
+		const rosterMsg = await channelCreate.send({ embeds: [ editRosterMessage(' ', ' ', [0, 0, 0], 'no signups') ] });
 
 		await saveInfoMessage(guildId, raidName, infoMsg.id);
 		await saveRosterMessage(guildId, raidName, rosterMsg.id);

@@ -1,26 +1,18 @@
 import { EmbedBuilder } from 'discord.js';
 
-const editRosterMessage = async (tankList: string, healerList: string, dpsList: string, targetMessage: any) => {
+const editRosterMessage = (mainRoster: string, overflowRoster: string, roleCount: number[], rosterCount: string) => {
 	try {
-		const rosterEmbed = new EmbedBuilder()
-			.setTitle('Roster')
+		return new EmbedBuilder()
+			.setTitle('__Roster__:')
+			.setDescription(mainRoster)
 			.addFields(
-				{ name: '__Counts By Roles:__', value: ' ' },
-			)
-			.addFields(
-				{ name: 'Tanks', value: tankList + ' ' },
-			)
-			.addFields(
-				{ name: 'Healers:', value: healerList + ' ' },
-			)
-			.addFields(
-				{ name: 'DPS', value: dpsList + ' ' },
+				{ name: '__Overflow:__', value: overflowRoster },
+				{ name: '__Counts By Roles:__', value: `Tanks: ${roleCount[0]}\nHealers: ${roleCount[1]}\nDPS: ${roleCount[2]}` },
+				{ name: '__Total Main Roster Count:__', value: rosterCount },
 			);
-
-		targetMessage.edit({ embeds: [rosterEmbed] });
 	}
 	catch (err) {
-		console.error('could not edit message' + err);
+		console.error('Issue creating message' + err);
 	}
 };
 
