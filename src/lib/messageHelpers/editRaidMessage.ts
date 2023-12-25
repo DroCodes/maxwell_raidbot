@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
 
-const editRosterMessage = (mainRoster: string, overflowRoster: string, roleCount: number[], rosterCount: string) => {
+const editRosterMessage = (mainRoster: string, overflowRoster: string, roleCount: number[], rosterCount: string, message: string) => {
 	try {
 		return new EmbedBuilder()
 			.setTitle('__Roster__:')

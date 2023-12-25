@@ -11,6 +11,7 @@ interface IRaidAttributes {
     dps?: string;
     raidDateTime?: Date;
     raidChannelId?: string;
+    threadChannelId?: string;
     infoMsgId?: string;
     rosterMsgId?: string;
     GuildSettingsId: string;
