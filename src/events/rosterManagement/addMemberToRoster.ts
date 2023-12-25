@@ -187,7 +187,6 @@ module.exports = {
 		if (tank) {
 			if (signedUp?.isSignedUp === true && signedUp.role === 'tank') {
 				console.log('is already signed up as tank');
-				// return;
 			}
 
 			if (signedUp?.isSignedUp === true && signedUp.role != 'tank') {
@@ -321,7 +320,7 @@ module.exports = {
 
 			const targetMessage = await reaction.message.channel.messages.fetch(raid.rosterMsgId);
 
-			const rosterEmbed = editRosterMessage(masterList, overFlowList, [tankNames.length, healerNames.length, dpsNames.length], rosterCount.toString());
+			const rosterEmbed = editRosterMessage(masterList, overFlowList, [tankNames.length, healerNames.length, dpsNames.length], rosterCount.toString(), '');
 
 			await targetMessage.edit({ embeds: [rosterEmbed] });
 		}

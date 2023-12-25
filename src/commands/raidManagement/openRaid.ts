@@ -5,7 +5,7 @@ import {
 	findRaid,
 	saveInfoMessage,
 	saveRaidChannelId,
-	saveRosterMessage,
+	saveRosterMessage, saveThreadId,
 } from '../../database/dataRepository/raidRepository';
 import { findRaidSettings, getRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
@@ -87,22 +87,13 @@ module.exports = {
 			const createRoster = await saveRoster(raid.id, raidName);
 
 			if (createRoster === null) {
-				// interaction.reply({ content: 'Unable to create roster, please try again', ephemeral: true });
 				console.log('Unable to create main roster');
 			}
 		}
 
-		// const rosterEmbed = new EmbedBuilder()
-		// 	.setTitle('Roster:');
-		//
-		// // rosterEmbed.addFields({ name: 'raider, emoji', value: 'raid message', inline: true });
-		// rosterEmbed.addFields({ name: '__Counts By Roles:__', value: 'TANK:\n' +
-		// 		'HEALER:\n' +
-		// 		'DPS:\n' });
-
 		await channelCreate.send('@everyone');
 		const infoMsg = await channelCreate.send({ embeds: [ infoEmbed ] });
-		const rosterMsg = await channelCreate.send({ embeds: [ editRosterMessage(' ', ' ', [0, 0, 0], 'no signups') ] });
+		const rosterMsg = await channelCreate.send({ embeds: [ editRosterMessage(' ', ' ', [0, 0, 0], 'no signups', '') ] });
 
 		await saveInfoMessage(guildId, raidName, infoMsg.id);
 		await saveRosterMessage(guildId, raidName, rosterMsg.id);
@@ -122,6 +113,8 @@ module.exports = {
 		getEmoji?.forEach(e => {
 			rosterMsg.react(e.emoji);
 		});
+
+		await saveThreadId(guildId, raidName, raidChannelThread.id);
 
 		raidChannelThread.send('Thread message');
 

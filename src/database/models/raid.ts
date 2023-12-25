@@ -36,11 +36,6 @@ const Raid = sequelize.define<IRaidInstance>(
 			type: DataTypes.TEXT,
 		},
 
-		// raidRoles: {
-		// 	allowNull: true,
-		// 	type: DataTypes.ARRAY(DataTypes.TEXT),
-		// },
-
 		tanks: {
 			allowNull: true,
 			type: DataTypes.TEXT,
@@ -62,6 +57,11 @@ const Raid = sequelize.define<IRaidInstance>(
 		},
 
 		raidChannelId: {
+			allowNull: true,
+			type: DataTypes.TEXT,
+		},
+
+		threadChannelId: {
 			allowNull: true,
 			type: DataTypes.TEXT,
 		},

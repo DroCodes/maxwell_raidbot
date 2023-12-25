@@ -189,7 +189,7 @@ module.exports = {
 
 			const targetMessage = await reaction.message.channel.messages.fetch(raid.rosterMsgId);
 
-			const rosterEmbed = editRosterMessage(masterList, overFlowList, [tankNames.length, healerNames.length, dpsNames.length], rosterCount.toString());
+			const rosterEmbed = editRosterMessage(masterList, overFlowList, [tankNames.length, healerNames.length, dpsNames.length], rosterCount.toString(), '');
 
 			await targetMessage.edit({ embeds: [rosterEmbed] });
 
