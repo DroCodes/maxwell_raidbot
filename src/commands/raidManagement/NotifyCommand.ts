@@ -1,25 +1,25 @@
 import { SlashCommandBuilder } from 'discord.js';
-import { deleteRaid, findRaid } from '../../database/dataRepository/raidRepository';
+import { findRaid } from '../../database/dataRepository/raidRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
-import { deleteMainRoster, getMainRoster } from '../../database/dataRepository/mainRosterRepository';
-import { deleteOverflow } from '../../database/dataRepository/overflowRosterRepository';
+import { getMainRoster } from '../../database/dataRepository/mainRosterRepository';
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName('cancel_raid')
-		.setDescription('cancel the raid')
+		.setName('notify')
+		.setDescription('nNotify members of changes to the raid')
 		.addStringOption(option =>
 			option.setName('raid_name')
 				.setDescription('the name of the raid')
 				.setRequired(true))
 		.addStringOption(option =>
-			option.setName('reason')
-				.setDescription('the reason for the cancellation')),
+			option.setName('message')
+				.setDescription('the message to send to the raid members')
+				.setRequired(true)),
 
 	async execute(interaction: any) {
 		const { guild, guildId, options } = interaction;
 		const raidName = options.getString('raid_name');
-		let reason = options.getString('reason');
+		const message = options.getString('message');
 
 		const raid = await findRaid(guildId, raidName);
 
@@ -42,8 +42,6 @@ module.exports = {
 			return;
 		}
 
-		// const members = mainRoster.tanks?.concat(mainRoster.healers, mainRoster.dps);
-
 		const members : string[] = [];
 
 		mainRoster.tanks?.forEach(t => {
@@ -58,11 +56,6 @@ module.exports = {
 			members.push(d);
 		});
 
-		if (reason === null) {
-			console.log('raid was canceled without a reason');
-			reason = 'no reason provided';
-		}
-
 		for (const key in members) {
 			const member = members[key];
 			try {
@@ -70,22 +63,16 @@ module.exports = {
 
 				for (const m of discordMemeber) {
 					if (m[1].user.username === member) {
-						await m[1].send(`Raid ${raidName} has been canceled, reason: ${reason}`);
+						await m[1].send(`new message from the  raid raid leader of ${raidName}: ${message}`);
 					}
 				}
+
+				interaction.reply({ content: `Message sent to members of raid ${raidName}`, ephemeral: true });
 			}
 			catch (err: any) {
 				console.log(`There was an issue sending a message to ${member}`, err.message);
+				interaction.reply({ content: `There was an issue sending a message to ${member}`, ephemeral: true });
 			}
 		}
-
-		await deleteMainRoster(<number>roster?.id);
-		await deleteOverflow(<number>roster?.id);
-		await deleteRaid(guildId, raidName);
-
-		await guild.channels.delete(raid.raidChannelId);
-
-
-		interaction.reply({ content: `Raid ${raidName} was canceled, members were notified`, ephemeral: true });
 	},
 };
