@@ -2,7 +2,7 @@ import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
 import { verifyRaidExists } from '../../lib/verification/raidVerification';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
 import {
-	findRaid,
+	findRaid, openRaid,
 	saveInfoMessage,
 	saveRaidChannelId,
 	saveRosterMessage, saveThreadId,
@@ -115,6 +115,7 @@ module.exports = {
 		});
 
 		await saveThreadId(guildId, raidName, raidChannelThread.id);
+		await openRaid(guildId, raidName);
 
 		raidChannelThread.send('Thread message');
 

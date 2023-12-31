@@ -14,6 +14,7 @@ interface IRaidAttributes {
     threadChannelId?: string;
     infoMsgId?: string;
     rosterMsgId?: string;
+    isOpen: boolean;
     GuildSettingsId: string;
 }
 

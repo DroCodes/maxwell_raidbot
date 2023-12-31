@@ -42,6 +42,7 @@ const createRaid = async (guildId: string, raidName: string, info: string) => {
 				defaults: {
 					raidName: raidName,
 					info: info,
+					isOpen: false,
 					GuildSettingsId: guildId,
 				},
 			});
@@ -78,8 +79,6 @@ const saveInfo = async (guildId: string, raidName: string, info: string) => {
 
 const saveRaidLead = async (guildId: string, raidName: string, raidLead: string) => {
 	try {
-		console.log('raidLead' + raidLead);
-		console.log('raidName' + raidName);
 		const raid = await Raid.update(
 			{
 				raidLead: raidLead,
@@ -272,4 +271,25 @@ const saveThreadId = async (guildId: string, raidName: string, threadId: string)
 	}
 };
 
-export { findRaid, findAllRaids, createRaid, saveInfo, saveRaidLead, saveRaidTier, saveRaidRoles, saveRaidDate, saveRaidChannelId, deleteRaid, saveInfoMessage, saveRosterMessage, saveThreadId };
+const openRaid = async (guildId: string, raidName: string) => {
+	try {
+		const updateTable = await Raid.update(
+			{
+				isOpen: true,
+			},
+			{
+				where: {
+					GuildSettingsId: guildId,
+					raidName: raidName,
+				},
+			},
+		);
+
+		return updateTable.length > 0;
+	}
+	catch (err) {
+		console.error('There was an issue opening the raid', err);
+	}
+};
+
+export { findRaid, findAllRaids, createRaid, saveInfo, saveRaidLead, saveRaidTier, saveRaidRoles, saveRaidDate, saveRaidChannelId, deleteRaid, saveInfoMessage, saveRosterMessage, saveThreadId, openRaid };
