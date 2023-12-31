@@ -76,6 +76,11 @@ const Raid = sequelize.define<IRaidInstance>(
 			type: DataTypes.TEXT,
 		},
 
+		isOpen: {
+			allowNull: false,
+			type: DataTypes.BOOLEAN,
+		},
+
 		GuildSettingsId: {
 			allowNull: false,
 			type: DataTypes.TEXT,

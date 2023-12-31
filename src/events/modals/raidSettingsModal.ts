@@ -48,25 +48,25 @@ module.exports = {
 				.setCustomId('raidLead')
 				.setLabel('Raid Leader')
 				.setStyle(TextInputStyle.Short)
-				.setRequired(true);
+				.setRequired(false);
 
 			const raidDate = new TextInputBuilder()
 				.setCustomId('date')
 				.setLabel('Raid Date (mm-dd hh:mm)')
 				.setStyle(TextInputStyle.Short)
-				.setRequired(true);
+				.setRequired(false);
 
 			const raidTier = new TextInputBuilder()
 				.setCustomId('tier')
 				.setLabel('Raid Tier')
 				.setStyle(TextInputStyle.Short)
-				.setRequired(true);
+				.setRequired(false);
 
 			const raidRoles = new TextInputBuilder()
 				.setCustomId('roles')
 				.setLabel('Raid roles (Tanks, Healers, and DPS)')
 				.setStyle(TextInputStyle.Short)
-				.setRequired(true);
+				.setRequired(false);
 
 			const raidNameActionRow = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(raidName);
 			const raidLeadActionRole = new ActionRowBuilder<ModalActionRowComponentBuilder>().addComponents(raidLead);
