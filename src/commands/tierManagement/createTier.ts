@@ -25,7 +25,7 @@ module.exports = {
 				.setDescription('is this tier restricted by roles')
 				.setRequired(false)),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		console.log('Interaction type' + typeof interaction);

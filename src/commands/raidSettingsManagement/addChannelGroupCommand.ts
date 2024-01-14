@@ -11,7 +11,7 @@ module.exports = {
 				.setDescription('group for raid channels')
 				.setRequired(true)),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		try {

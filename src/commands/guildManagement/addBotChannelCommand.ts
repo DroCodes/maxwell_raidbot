@@ -10,7 +10,7 @@ module.exports = {
 				.setDescription('channel for bot commands')
 				.setRequired(true)),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		try {

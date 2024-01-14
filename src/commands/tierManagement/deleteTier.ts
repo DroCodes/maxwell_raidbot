@@ -12,7 +12,8 @@ module.exports = {
 			option.setName('tier_name')
 				.setDescription('The name of the tier to delete')
 				.setRequired(true)),
-	isDevelopment: true,
+
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		const { guildId, options, channel } = interaction;

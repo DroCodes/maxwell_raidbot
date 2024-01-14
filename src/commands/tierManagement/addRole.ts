@@ -24,7 +24,7 @@ module.exports = {
 		),
 
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		try {

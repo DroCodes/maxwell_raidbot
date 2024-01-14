@@ -13,7 +13,7 @@ module.exports = {
 			option.setName('raid_name')
 				.setDescription('the name of the raid')
 				.setRequired(true)),
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		const { guild, guildId, channel, options } = interaction;

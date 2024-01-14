@@ -9,7 +9,7 @@ module.exports = {
 		.setName('get_tiers')
 		.setDescription('gets a list of all tiers'),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		try {

@@ -13,7 +13,7 @@ module.exports = {
 				.setDescription('Raid to be closed')
 				.setRequired(true)),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		const { guildId, guild, options } = interaction;

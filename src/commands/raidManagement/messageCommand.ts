@@ -15,7 +15,7 @@ module.exports = {
 			option.setName('message')
 				.setDescription('message to add')
 				.setRequired(true)),
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		const { guildId, channelId, options } = interaction;

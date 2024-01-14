@@ -28,7 +28,7 @@ import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
 module.exports = {
 	name: Events.MessageReactionAdd,
 	once: false,
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(reaction: any, user: any) {
 		if (user.bot || !reaction.message.guild) return;

@@ -18,7 +18,7 @@ module.exports = {
 				.setRequired(true),
 		),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		const { guildId, options, channel } = interaction;

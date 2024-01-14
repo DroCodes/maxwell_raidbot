@@ -15,7 +15,7 @@ module.exports = {
 				.setDescription('emoji to add to role')
 				.setRequired(true)),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		try {

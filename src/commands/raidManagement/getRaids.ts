@@ -7,7 +7,7 @@ module.exports = {
 		.setName('get_raids')
 		.setDescription('gets a list of all raids'),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		const { guildId, options, channel } = interaction;

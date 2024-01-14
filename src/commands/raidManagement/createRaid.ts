@@ -15,7 +15,7 @@ module.exports = {
 				.setDescription('info for the raid')
 				.setRequired(false)),
 
-	isDevelopment: true,
+	isDevelopment: false,
 
 	async execute(interaction: any) {
 		const { guildId, options, channel } = interaction;
