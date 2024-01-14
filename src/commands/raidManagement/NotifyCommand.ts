@@ -16,6 +16,8 @@ module.exports = {
 				.setDescription('the message to send to the raid members')
 				.setRequired(true)),
 
+	isDevelopment: false,
+
 	async execute(interaction: any) {
 		const { guild, guildId, options } = interaction;
 		const raidName = options.getString('raid_name');

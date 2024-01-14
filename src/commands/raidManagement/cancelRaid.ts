@@ -16,6 +16,8 @@ module.exports = {
 			option.setName('reason')
 				.setDescription('the reason for the cancellation')),
 
+	isDevelopment: false,
+
 	async execute(interaction: any) {
 		const { guild, guildId, options } = interaction;
 		const raidName = options.getString('raid_name');
