@@ -4,12 +4,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import 'dotenv/config';
 
-const token = process.env.TOKEN as string;
+const token = process.env.BOT_TOKEN as string;
 const clientId = process.env.CLIENT_ID as string;
+const guildId = process.env.GUILD_ID as string;
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
-const foldersPath = path.join(__dirname, 'commands');
+const foldersPath = path.join(__dirname, '../commands');
 const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
@@ -40,7 +41,7 @@ const rest = new REST().setToken(token);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationCommands(clientId),
+			Routes.applicationGuildCommands(clientId, guildId),
 			{ body: commands },
 		) as [];
 
