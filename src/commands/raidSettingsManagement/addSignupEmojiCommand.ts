@@ -35,7 +35,7 @@ module.exports = {
 			const emoji = options.getString('emoji');
 			const raidRole = options.getString('raid_role');
 
-			const addSignUpEmoji = await saveRaidEmoji(guildId, role.name, emoji, raidRole);
+			const addSignUpEmoji = await saveRaidEmoji(guildId, role, emoji, raidRole);
 
 			if (addSignUpEmoji === null) {
 				interaction.reply('there was an issue saving the role and emoji');
