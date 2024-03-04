@@ -109,13 +109,13 @@ module.exports = {
 			const formatEmoji = getEmojiName(raidEmoji[i].emoji);
 
 			if (reactionEmoji === formatEmoji) {
-				if (raidEmoji[i].role.toLowerCase() === 'tank') {
+				if (raidEmoji[i].raidRole.toLowerCase() === 'tank') {
 					tank = true;
 				}
-				else if (raidEmoji[i].role.toLowerCase() === 'healer') {
+				else if (raidEmoji[i].raidRole.toLowerCase() === 'healer') {
 					healer = true;
 				}
-				else if (raidEmoji[i].role.toLowerCase() === 'dps') {
+				else if (raidEmoji[i].raidRole.toLowerCase() === 'dps') {
 					dps = true;
 				}
 			}

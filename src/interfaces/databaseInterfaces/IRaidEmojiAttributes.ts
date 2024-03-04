@@ -4,6 +4,7 @@ interface IRaidEmojiAttributes {
     id?: number;
     role: string;
     emoji: string;
+    raidRole: string;
     RaidSettingsId: number;
 
 }
