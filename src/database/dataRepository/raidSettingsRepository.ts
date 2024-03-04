@@ -1,6 +1,7 @@
 import RaidSettings from '../models/raidSettings';
 import RaidEmoji from '../models/raidEmoji';
 import raidEmoji from '../models/raidEmoji';
+import raid from '../models/raid';
 
 const findRaidSettings = async (guildId: string) => {
 	try {
@@ -53,7 +54,7 @@ const saveRaidChannelGroup = async (guildId: string, channelId: string) => {
 	}
 };
 
-const saveRaidEmoji = async (guildId: string, role: string, emoji: string) => {
+const saveRaidEmoji = async (guildId: string, role: string, emoji: string, raidRole: string) => {
 	try {
 		const raidSettings = await findRaidSettings(guildId);
 		if (raidSettings === null || raidSettings === undefined) return null;
@@ -61,6 +62,7 @@ const saveRaidEmoji = async (guildId: string, role: string, emoji: string) => {
 		return await RaidEmoji.create({
 			role: role,
 			emoji: emoji,
+			raidRole: raidRole,
 			RaidSettingsId: raidSettings.id as number,
 		});
 	}

@@ -13,6 +13,10 @@ module.exports = {
 		.addStringOption((option: any) =>
 			option.setName('emoji')
 				.setDescription('emoji to add to role')
+				.setRequired(true))
+		.addStringOption((option: any) =>
+			option.setName('raid_role')
+				.setDescription('Role the emoji represents')
 				.setRequired(true)),
 
 	isDevelopment: false,
@@ -29,8 +33,9 @@ module.exports = {
 
 			const role = options.getRole('role');
 			const emoji = options.getString('emoji');
+			const raidRole = options.getString('raid_role');
 
-			const addSignUpEmoji = await saveRaidEmoji(guildId, role.name, emoji);
+			const addSignUpEmoji = await saveRaidEmoji(guildId, role.name, emoji, raidRole);
 
 			if (addSignUpEmoji === null) {
 				interaction.reply('there was an issue saving the role and emoji');

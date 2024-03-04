@@ -1,9 +1,11 @@
-import { EmbedBuilder, Events } from 'discord.js';
+import { Events } from 'discord.js';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { findRaidSettings, getRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
 import {
+	addDpsToRoster,
+	addHealerToRoster,
 	addTankToRoster,
 	getMainRoster,
 	removeDpsFromRoster, removeHealerFromRoster,
@@ -26,7 +28,6 @@ module.exports = {
 
 	async execute(reaction: any, user: any) {
 		if (user.bot || !reaction.message.guild) return;
-		console.log('test');
 
 		if (reaction.partial) {
 			// If the message this reaction belongs to was removed, the fetching might result in an API error which should be handled
@@ -90,14 +91,17 @@ module.exports = {
 			const formatEmoji = getEmojiName(raidEmoji[i].emoji);
 
 			if (reactionEmoji === formatEmoji) {
-				if (raidEmoji[i].role.toLowerCase() === 'tank') {
+				if (raidEmoji[i].raidRole.toLowerCase() === 'tank') {
 					tank = true;
+					break;
 				}
-				else if (raidEmoji[i].role.toLowerCase() === 'healer') {
+				else if (raidEmoji[i].raidRole.toLowerCase() === 'healer') {
 					healer = true;
+					break;
 				}
-				else if (raidEmoji[i].role.toLowerCase() === 'dps') {
+				else if (raidEmoji[i].raidRole.toLowerCase() === 'dps') {
 					dps = true;
+					break;
 				}
 			}
 		}
@@ -116,7 +120,7 @@ module.exports = {
 				await removeTankFromOverflow(<number>roster.id, username);
 			}
 
-			if (isRemoved && overflowRoster?.tanks != null) {
+			if (isRemoved && overflowRoster?.tanks != null && overflowRoster?.tanks?.length > 0) {
 				await addTankToRoster(<number>roster?.id, overflowRoster.tanks[0], 'tank');
 				await removeTankFromOverflow(<number>roster.id, overflowRoster.tanks[0]);
 				console.log(`Moved ${overflowRoster.tanks[0]} from overflow to main roster as tank`);
@@ -133,9 +137,9 @@ module.exports = {
 				await removeHealerFromOverflow(<number>roster.id, username);
 			}
 
-			if (isRemoved && overflowRoster?.healers != null) {
-				await addTankToRoster(<number>roster?.id, overflowRoster.healers[0], 'tank');
-				await removeTankFromOverflow(<number>roster.id, overflowRoster.healers[0]);
+			if (isRemoved && overflowRoster?.healers != null && overflowRoster?.healers?.length > 0) {
+				await addHealerToRoster(<number>roster?.id, overflowRoster.healers[0], 'tank');
+				await removeHealerFromOverflow(<number>roster.id, overflowRoster.healers[0]);
 				console.log(`Moved ${overflowRoster.healers[0]} from overflow to main roster as healer`);
 			}
 		}
@@ -150,9 +154,9 @@ module.exports = {
 				await removeDpsFromOverflow(<number>roster.id, username);
 			}
 
-			if (isRemoved && overflowRoster?.dps != null) {
-				await addTankToRoster(<number>roster?.id, overflowRoster.dps[0], 'tank');
-				await removeTankFromOverflow(<number>roster.id, overflowRoster.dps[0]);
+			if (isRemoved && overflowRoster?.dps != null && overflowRoster?.dps?.length > 0) {
+				await addDpsToRoster(<number>roster?.id, overflowRoster.dps[0], 'tank');
+				await removeDpsFromOverflow(<number>roster.id, overflowRoster.dps[0]);
 				console.log(`Moved ${overflowRoster.dps[0]} from overflow to main roster as dps`);
 			}
 		}

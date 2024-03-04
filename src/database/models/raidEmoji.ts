@@ -23,6 +23,11 @@ const RaidEmoji = sequelize.define<IRaidEmojiInstance>(
 			type: DataTypes.TEXT,
 		},
 
+		raidRole: {
+			allowNull: true,
+			type: DataTypes.TEXT,
+		},
+
 		RaidSettingsId: {
 			allowNull: false,
 			type: DataTypes.INTEGER,
