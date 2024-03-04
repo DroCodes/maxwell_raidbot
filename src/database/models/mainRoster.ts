@@ -24,6 +24,4 @@ const MainRoster = sequelize.define<IMainRosterInstance>('MainRoster', {
 	},
 });
 
-MainRoster.belongsTo(Roster, { foreignKey: 'id', as: 'roster' });
-
 export default MainRoster;

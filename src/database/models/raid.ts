@@ -1,8 +1,6 @@
 import { sequelize } from './index';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { DataTypes } from 'sequelize';
-import RaidSettings from './raidSettings';
-import RaidEmoji from './raidEmoji';
 import Roster from './roster';
 
 const Raid = sequelize.define<IRaidInstance>(

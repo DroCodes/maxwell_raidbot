@@ -39,7 +39,7 @@ const Roster = sequelize.define<IRosterInstance>(
 // 	onDelete: 'CASCADE',
 // });
 
-Roster.hasOne(MainRoster, { foreignKey: 'id', as: 'mainRoster' });
-Roster.hasOne(OverflowRoster, { foreignKey: 'id', as: 'overflowRoster' });
+Roster.hasOne(MainRoster, { foreignKey: 'id', as: 'mainRoster', onDelete: 'CASCADE' });
+Roster.hasOne(OverflowRoster, { foreignKey: 'id', as: 'overflowRoster', onDelete: 'CASCADE' });
 
 export default Roster;

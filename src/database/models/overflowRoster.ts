@@ -24,6 +24,4 @@ const OverflowRoster = sequelize.define<IOverflowRosterInstance>('OverflowRoster
 	},
 });
 
-OverflowRoster.belongsTo(Roster, { foreignKey: 'id', as: 'roster' });
-
 export default OverflowRoster;
