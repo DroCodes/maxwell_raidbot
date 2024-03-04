@@ -44,7 +44,7 @@ module.exports = {
 			interaction.reply(`Role saved as ${role}, Emoji saved as ${emoji}`);
 		}
 		catch (err) {
-			console.error(`there was an issue executing ${this.data.name}`);
+			console.error(`there was an issue executing ${this.data.name}`, err);
 			interaction.reply(`there was an issue executing ${this.data.name}`);
 		}
 	},
