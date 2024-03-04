@@ -31,7 +31,7 @@ module.exports = {
 				return;
 			}
 
-			const role = options.getRole('role');
+			const role = options.getString('role');
 			const emoji = options.getString('emoji');
 			const raidRole = options.getString('raid_role');
 
