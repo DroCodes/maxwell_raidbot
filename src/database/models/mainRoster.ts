@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from './index';
 import { IMainRosterInstance } from '../../interfaces/databaseInterfaces/IMainRosterAttributes';
+import Roster from './roster';
 
 const MainRoster = sequelize.define<IMainRosterInstance>('MainRoster', {
 	id: {
@@ -22,5 +23,7 @@ const MainRoster = sequelize.define<IMainRosterInstance>('MainRoster', {
 		allowNull: true,
 	},
 });
+
+MainRoster.belongsTo(Roster, { foreignKey: 'id', as: 'roster' });
 
 export default MainRoster;

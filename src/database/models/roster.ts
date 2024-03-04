@@ -1,8 +1,6 @@
 import { sequelize } from './index';
 import { IRosterInstance } from '../../interfaces/databaseInterfaces/IRosterAttributes';
 import { DataTypes } from 'sequelize';
-import RaidEmoji from './raidEmoji';
-import RaidSettings from './raidSettings';
 import MainRoster from './mainRoster';
 import OverflowRoster from './overflowRoster';
 
@@ -29,16 +27,19 @@ const Roster = sequelize.define<IRosterInstance>(
 	},
 );
 
-Roster.belongsTo(MainRoster, {
-	foreignKey: 'id',
-	as: 'mainRosterTable',
-	onDelete: 'CASCADE',
-});
+// Roster.belongsTo(MainRoster, {
+// 	foreignKey: 'id',
+// 	as: 'mainRosterTable',
+// 	onDelete: 'CASCADE',
+// });
+//
+// Roster.belongsTo(OverflowRoster, {
+// 	foreignKey: 'id',
+// 	as: 'overflowRosterTable',
+// 	onDelete: 'CASCADE',
+// });
 
-Roster.belongsTo(OverflowRoster, {
-	foreignKey: 'id',
-	as: 'overflowRosterTable',
-	onDelete: 'CASCADE',
-});
+Roster.hasOne(MainRoster, { foreignKey: 'id', as: 'mainRoster' });
+Roster.hasOne(OverflowRoster, { foreignKey: 'id', as: 'overflowRoster' });
 
 export default Roster;

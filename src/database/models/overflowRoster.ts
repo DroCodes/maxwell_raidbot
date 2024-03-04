@@ -1,6 +1,7 @@
 import { sequelize } from './index';
 import { DataTypes } from 'sequelize';
 import { IOverflowRosterInstance } from '../../interfaces/databaseInterfaces/IOverflowRosterAttributes';
+import Roster from './roster';
 
 const OverflowRoster = sequelize.define<IOverflowRosterInstance>('OverflowRoster', {
 	id: {
@@ -22,5 +23,7 @@ const OverflowRoster = sequelize.define<IOverflowRosterInstance>('OverflowRoster
 		allowNull: true,
 	},
 });
+
+OverflowRoster.belongsTo(Roster, { foreignKey: 'id', as: 'roster' });
 
 export default OverflowRoster;
