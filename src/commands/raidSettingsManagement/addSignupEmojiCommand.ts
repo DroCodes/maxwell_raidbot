@@ -6,7 +6,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('add_signup_emoji')
 		.setDescription('add signup emoji')
-		.addRoleOption((option: any) =>
+		.addStringOption((option: any) =>
 			option.setName('role')
 				.setDescription('role to assign to emoji')
 				.setRequired(true))
