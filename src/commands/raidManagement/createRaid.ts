@@ -20,7 +20,7 @@ module.exports = {
 	async execute(interaction: any) {
 		const { guildId, options, channel } = interaction;
 
-		const raidName = options.getString('raid_name');
+		const raidName = options.getString('raid_name').toLowerCase();
 		const raidInfo = options.getString('info');
 
 		try {
