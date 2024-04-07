@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
 import { verifyRaidExists } from '../../lib/verification/raidVerification';
 import { parseDate } from '../../lib/dateHelpers/dateFormater';
@@ -11,7 +11,9 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('raid_name')
 				.setDescription('the name of the raid')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+
 
 	isDevelopment: false,
 

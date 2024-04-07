@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
 import { getMainRoster } from '../../database/dataRepository/mainRosterRepository';
@@ -14,7 +14,8 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('message')
 				.setDescription('the message to send to the raid members')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
 	isDevelopment: false,
 

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { createTier } from '../../database/dataRepository/tierRepository';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
 
@@ -23,7 +23,8 @@ module.exports = {
 		.addBooleanOption((option) =>
 			option.setName('is_restricted')
 				.setDescription('is this tier restricted by roles')
-				.setRequired(false)),
+				.setRequired(false))
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { removeRoleFromTier } from '../../database/dataRepository/tierRepository';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
@@ -16,7 +16,8 @@ module.exports = {
 			option.setName('role_name')
 				.setDescription('role to remove from tier')
 				.setRequired(true),
-		),
+		)
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

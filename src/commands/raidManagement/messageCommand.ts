@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findAllRaids, findRaid } from '../../database/dataRepository/raidRepository';
 import { getMainRoster } from '../../database/dataRepository/mainRosterRepository';
 import { getOverflow } from '../../database/dataRepository/overflowRosterRepository';
@@ -14,7 +14,9 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('message')
 				.setDescription('message to add')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+
 	isDevelopment: false,
 
 	async execute(interaction: any) {

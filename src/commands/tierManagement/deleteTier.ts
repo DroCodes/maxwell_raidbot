@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { deleteTier } from '../../database/dataRepository/tierRepository';
 import tier from '../../database/models/tier';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
@@ -11,7 +11,8 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('tier_name')
 				.setDescription('The name of the tier to delete')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

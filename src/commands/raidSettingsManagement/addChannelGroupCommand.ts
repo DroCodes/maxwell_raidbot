@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { saveRaidChannelGroup } from '../../database/dataRepository/raidSettingsRepository';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 
@@ -9,7 +9,8 @@ module.exports = {
 		.addChannelOption((option: any) =>
 			option.setName('raid_channel_group')
 				.setDescription('group for raid channels')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

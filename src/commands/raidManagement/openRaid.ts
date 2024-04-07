@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { verifyRaidExists } from '../../lib/verification/raidVerification';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
 import {
@@ -22,7 +22,8 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('raid_name')
 				.setDescription('Name of the raid')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
 	isDevelopment: false,
 

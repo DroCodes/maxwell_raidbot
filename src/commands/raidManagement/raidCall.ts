@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
@@ -12,7 +12,9 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('raid_name')
 				.setDescription('the name of the raid')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+
 	isDevelopment: false,
 
 	async execute(interaction: any) {

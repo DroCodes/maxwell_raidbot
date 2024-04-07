@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { deleteRaid, findRaid } from '../../database/dataRepository/raidRepository';
 import { deleteMainRoster } from '../../database/dataRepository/mainRosterRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
@@ -11,7 +11,9 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('raid_name')
 				.setDescription('Raid to be closed')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+
 
 	isDevelopment: false,
 

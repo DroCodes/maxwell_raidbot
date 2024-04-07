@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { addRoleToTier } from '../../database/dataRepository/tierRepository';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 import { findRaid } from '../../database/dataRepository/raidRepository';
@@ -21,7 +21,8 @@ module.exports = {
 			option.setName('raid_role')
 				.setDescription('the role associated (Tank, Dps...)')
 				.setRequired(true),
-		),
+		)
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 
 	isDevelopment: false,

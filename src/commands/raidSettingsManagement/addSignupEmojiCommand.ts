@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 import { saveRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 
@@ -17,7 +17,8 @@ module.exports = {
 		.addStringOption((option: any) =>
 			option.setName('raid_role')
 				.setDescription('Role the emoji represents')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

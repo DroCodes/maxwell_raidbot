@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { deleteRaid, findRaid } from '../../database/dataRepository/raidRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
 import { deleteMainRoster, getMainRoster } from '../../database/dataRepository/mainRosterRepository';
@@ -14,7 +14,9 @@ module.exports = {
 				.setRequired(true))
 		.addStringOption(option =>
 			option.setName('reason')
-				.setDescription('the reason for the cancellation')),
+				.setDescription('the reason for the cancellation'))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+
 
 	isDevelopment: false,
 

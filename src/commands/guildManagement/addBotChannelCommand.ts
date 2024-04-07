@@ -1,4 +1,4 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { saveBotChannelId } from '../../database/dataRepository/guildSettingsRepository';
 
 module.exports = {
@@ -8,7 +8,8 @@ module.exports = {
 		.addChannelOption((option) =>
 			option.setName('bot_channel')
 				.setDescription('channel for bot commands')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

@@ -1,11 +1,12 @@
-import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
 import { findAllRaids } from '../../database/dataRepository/raidRepository';
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('get_raids')
-		.setDescription('gets a list of all raids'),
+		.setDescription('gets a list of all raids')
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
 	isDevelopment: false,
 

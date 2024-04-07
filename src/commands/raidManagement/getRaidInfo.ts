@@ -1,4 +1,4 @@
-import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { verifyBotChannel } from '../../lib/verification/channelVerification';
@@ -11,8 +11,11 @@ module.exports = {
 		.addStringOption(option =>
 			option.setName('raid_name')
 				.setDescription('the name of the raid')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
+
 	isDevelopment: false,
+
 	async execute(interaction: any) {
 		const { guildId, options, channel } = interaction;
 
