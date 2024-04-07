@@ -18,6 +18,10 @@ const GuildSettings = sequelize.define<IGuildSettingsInstance>(
 			allowNull: true,
 			type: DataTypes.TEXT,
 		},
+		adminChannelId: {
+			allowNull: true,
+			type: DataTypes.TEXT,
+		},
 	});
 
 GuildSettings.hasOne(RaidSettings, {

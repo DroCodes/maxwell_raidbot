@@ -48,4 +48,37 @@ const saveBotChannelId = async (guildId: string, channelId: string) => {
 	}
 };
 
-export { saveGuildId, saveBotChannelId, findGuildById };
+const saveAdminChannel = async (guildId: string, channelId: string) => {
+	try {
+		const saveChannel = await GuildSettings.update({ adminChannelId: channelId },
+			{
+				where: {
+					guildId: guildId,
+				},
+			},
+		);
+
+		return !!saveChannel;
+	}
+	catch (err) {
+		console.error('There was an issue saving the channel id', err);
+	}
+};
+
+const getSettings = async (guildId: string) => {
+	try {
+		const settings = await GuildSettings.findOne({ where: { guildId: guildId } });
+
+		if (settings === null || settings === undefined) {
+			return null;
+		}
+
+		return settings;
+	}
+	catch (err) {
+		console.error('There was an issue retrieving the settings', err);
+	}
+
+};
+
+export { saveGuildId, saveBotChannelId, findGuildById, getSettings, saveAdminChannel };

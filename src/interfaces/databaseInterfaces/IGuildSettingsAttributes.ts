@@ -4,6 +4,7 @@ import { Model } from 'sequelize';
 interface IGuildSettingsAttributes {
     guildId: string;
     botChannelId?: string;
+    adminChannelId?: string;
 }
 
 export interface IGuildSettingsInstance
