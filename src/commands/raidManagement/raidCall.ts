@@ -18,57 +18,41 @@ module.exports = {
 	isDevelopment: false,
 
 	async execute(interaction: any) {
-		const { guild, guildId, channel, options } = interaction;
+		try {
+			const { guild, guildId, channel, options } = interaction;
 
-		const raidName = options.getString('raid_name');
+			const raidName = options.getString('raid_name');
 
-		const raid = await findRaid(guildId, raidName) as IRaidInstance;
+			const raid = await findRaid(guildId, raidName) as IRaidInstance;
 
-		if (!raid) {
-			await interaction.reply({ content: `Raid named ${raidName} does not exist`, ephemeral: true });
-			return;
-		}
-
-		const roster = await getRoster(<number>raid.id);
-		console.log(raid.id);
-		if (!roster) {
-			await interaction.reply({ content: `Raid named ${raidName} does not have a roster`, ephemeral: true });
-			return;
-		}
-		console.log(<number>roster.id);
-
-		const mainRoster = await getMainRoster(<number>roster.id);
-
-		if (mainRoster === undefined || mainRoster === null) {
-			await interaction.reply({ content: `Raid named ${raidName} does not have a main roster`, ephemeral: true });
-			return;
-		}
-
-		const overFlowRoster = await getOverflow(<number>roster.id);
-
-		let raidCallMessage = '__Main Roster":"__\n';
-
-		const mainRosterMembers = mainRoster.tanks?.concat(<string[]>mainRoster.healers, <string[]>mainRoster.dps);
-
-		mainRosterMembers?.map((member: string) => {
-			if (mainRosterMembers?.length === 0) {
-				return '';
+			if (!raid) {
+				await interaction.reply({ content: `Raid named ${raidName} does not exist`, ephemeral: true });
+				return;
 			}
 
-			const user = guild.members.cache.find((m:any) => m.user.username === member);
+			const roster = await getRoster(<number>raid.id);
+			console.log(raid.id);
+			if (!roster) {
+				await interaction.reply({ content: `Raid named ${raidName} does not have a roster`, ephemeral: true });
+				return;
+			}
+			console.log(<number>roster.id);
 
-			raidCallMessage += `${user}\n`;
-		});
+			const mainRoster = await getMainRoster(<number>roster.id);
 
-		if (overFlowRoster !== undefined && overFlowRoster !== null) {
-			if (overFlowRoster.tanks === null) {
-				overFlowRoster.tanks = [];
+			if (mainRoster === undefined || mainRoster === null) {
+				await interaction.reply({ content: `Raid named ${raidName} does not have a main roster`, ephemeral: true });
+				return;
 			}
 
-			const overFlowRosterMembers = overFlowRoster.tanks?.concat(<string[]>overFlowRoster.healers, <string[]>overFlowRoster.dps);
+			const overFlowRoster = await getOverflow(<number>roster.id);
 
-			overFlowRosterMembers?.map((member: string) => {
-				if (overFlowRosterMembers?.length === 0) {
+			let raidCallMessage = '__Main Roster":"__\n';
+
+			const mainRosterMembers = mainRoster.tanks?.concat(<string[]>mainRoster.healers, <string[]>mainRoster.dps);
+
+			mainRosterMembers?.map((member: string) => {
+				if (mainRosterMembers?.length === 0) {
 					return '';
 				}
 
@@ -76,14 +60,36 @@ module.exports = {
 
 				raidCallMessage += `${user}\n`;
 			});
+
+			if (overFlowRoster !== undefined && overFlowRoster !== null) {
+				if (overFlowRoster.tanks === null) {
+					overFlowRoster.tanks = [];
+				}
+
+				const overFlowRosterMembers = overFlowRoster.tanks?.concat(<string[]>overFlowRoster.healers, <string[]>overFlowRoster.dps);
+
+				overFlowRosterMembers?.map((member: string) => {
+					if (overFlowRosterMembers?.length === 0) {
+						return '';
+					}
+
+					const user = guild.members.cache.find((m:any) => m.user.username === member);
+
+					raidCallMessage += `${user}\n`;
+				});
+			}
+
+			raidCallMessage += '\nMessage the raid lead in game for an invite\n';
+
+			const raidChannel = await guild.channels.cache.get(raid.raidChannelId);
+
+			raidChannel.send(raidCallMessage);
+
+			interaction.reply({ content: 'Raid opened', ephemeral: false });
 		}
-
-		raidCallMessage += '\nMessage the raid lead in game for an invite\n';
-
-		const raidChannel = await guild.channels.cache.get(raid.raidChannelId);
-
-		raidChannel.send(raidCallMessage);
-
-		interaction.reply({ content: 'Raid opened', ephemeral: false });
+		catch (err) {
+			console.error('Error:', err);
+			interaction.reply({ content: 'There was an issue opening the raid', ephemeral: true });
+		}
 	},
 };

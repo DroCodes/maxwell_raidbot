@@ -9,6 +9,12 @@ module.exports = {
 	isDevelopment: false,
 
 	async execute(interaction: any) {
-		console.log('Info command');
+		try {
+			console.log('...');
+		}
+		catch (err) {
+			console.error('there was an issue running the command', err);
+			interaction.reply({ content: 'there was an issue running the command, contact support for assistance', ephemeral: true });
+		}
 	},
 };

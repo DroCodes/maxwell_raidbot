@@ -17,24 +17,30 @@ module.exports = {
 	isDevelopment: false,
 
 	async execute(interaction: any) {
-		const { guildId, options, channel } = interaction;
+		try {
+			const { guildId, options, channel } = interaction;
 
-		const tierName = options.getString('tier_name');
+			const tierName = options.getString('tier_name');
 
-		const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
 
-		if (!checkBotChannel) {
-			interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
-			return;
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				return;
+			}
+
+			const removeTier = await deleteTier(guildId, tierName);
+
+			if (!removeTier) {
+				interaction.reply({ content: `There was an issue deleting the tier, please make sure the tier ${tierName} exists.`, ephemeral: true });
+				return;
+			}
+
+			interaction.reply({ content: `Tier ${tierName} has been deleted`, ephemeral: true });
 		}
-
-		const removeTier = await deleteTier(guildId, tierName);
-
-		if (!removeTier) {
-			interaction.reply({ content: `There was an issue deleting the tier, please make sure the tier ${tierName} exists.`, ephemeral: true });
-			return;
+		catch (err) {
+			console.log('There was an error running this command ' + err);
+			interaction.reply({ content: 'There was an error running this command', ephemeral: true });
 		}
-
-		interaction.reply({ content: `Tier ${tierName} has been deleted`, ephemeral: true });
 	},
 };

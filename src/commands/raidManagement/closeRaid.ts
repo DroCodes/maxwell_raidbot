@@ -18,33 +18,39 @@ module.exports = {
 	isDevelopment: false,
 
 	async execute(interaction: any) {
-		const { guildId, guild, options } = interaction;
+		try {
+			const { guildId, guild, options } = interaction;
 
-		const raidName = options.getString('raid_name');
+			const raidName = options.getString('raid_name');
 
-		const raid = await findRaid(guildId, raidName);
+			const raid = await findRaid(guildId, raidName);
 
-		if (raid === null) {
+			if (raid === null) {
+				interaction.reply({ content: 'Could not close raid, please make sure the raid specified is correct', ephemeral: true });
+				return;
+			}
+
+			const roster = await getRoster(<number>raid?.id);
+
+			const delRaid = await deleteRaid(guildId, raidName);
+
+			const raidChannel = await guild.channels.fetch(raid?.raidChannelId);
+
+			if (!delRaid) {
+				interaction.reply({ content: 'Could not close raid, please make sure the raid specified is correct', ephemeral: true });
+				return;
+			}
+			else {
+				await deleteMainRoster(<number>roster?.id);
+				await deleteOverflow(<number>roster?.id);
+			}
+
+			await guild.channels.delete(raidChannel);
+			await interaction.reply({ content: `${raidName} successfully closed and the channel has been deleted`, ephemeral: true });
+		}
+		catch (err) {
+			console.log(err);
 			interaction.reply({ content: 'Could not close raid, please make sure the raid specified is correct', ephemeral: true });
-			return;
 		}
-
-		const roster = await getRoster(<number>raid?.id);
-
-		const delRaid = await deleteRaid(guildId, raidName);
-
-		const raidChannel = await guild.channels.fetch(raid?.raidChannelId);
-
-		if (!delRaid) {
-			interaction.reply({ content: 'Could not close raid, please make sure the raid specified is correct', ephemeral: true });
-			return;
-		}
-		else {
-			await deleteMainRoster(<number>roster?.id);
-			await deleteOverflow(<number>roster?.id);
-		}
-
-		await guild.channels.delete(raidChannel);
-		await interaction.reply({ content: `${raidName} successfully closed and the channel has been deleted`, ephemeral: true });
 	},
 };
