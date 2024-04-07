@@ -22,7 +22,7 @@ module.exports = {
 			const guild = await findGuildById(guildId);
 
 			if (channel.id != guild?.botChannelId) {
-				interaction.reply('This is not the bot channel.');
+				interaction.reply({ content: 'This is not the bot channel.', ephemeral: true });
 				return;
 			}
 
@@ -37,7 +37,7 @@ module.exports = {
 				return;
 			}
 
-			interaction.reply(`Saved Bot Channel group: ${channelGroup}`);
+			interaction.reply({ content: `Saved Bot Channel group: ${channelGroup}`, ephemeral: true });
 		}
 		catch (err) {
 			console.error('there was an issue running the command', err);

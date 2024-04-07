@@ -38,14 +38,14 @@ module.exports = {
 			const addSignUpEmoji = await saveRaidEmoji(guildId, role, emoji, raidRole);
 
 			if (addSignUpEmoji === null) {
-				interaction.reply('there was an issue saving the role and emoji');
+				interaction.reply({ content: 'there was an issue saving the role and emoji', ephemeral: true });
 			}
 
-			interaction.reply(`Role saved as ${role}, Emoji saved as ${emoji}`);
+			interaction.reply({ content: `Role saved as ${role}, Emoji saved as ${emoji}`, ephemeral: true });
 		}
 		catch (err) {
 			console.error(`there was an issue executing ${this.data.name}`, err);
-			interaction.reply(`there was an issue executing ${this.data.name}`);
+			interaction.reply({ content: `there was an issue executing ${this.data.name}`, ephemeral: true });
 		}
 	},
 };

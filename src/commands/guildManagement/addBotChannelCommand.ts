@@ -18,16 +18,16 @@ module.exports = {
 			const channel = options.getChannel('bot_channel');
 
 			if (!channel.isTextBased()) {
-				interaction.reply('please set bot channel to a text channel');
+				interaction.reply({ content: 'channel must be a text channel', ephemeral: true });
 				return;
 			}
 			const saveChannel = await saveBotChannelId(guildId.toString(), channel.id);
 			if (!saveChannel) {
-				interaction.reply('issue saving channel');
+				interaction.reply({ content: 'issue saving channel', ephemeral: true });
 				return;
 			}
 
-			interaction.reply(`Saved Bot Channel: ${channel}`);
+			interaction.reply({ content: `Saved Bot Channel: ${channel}`, ephemeral: true });
 		}
 		catch (err) {
 			console.error('there was an issue running the command', err);

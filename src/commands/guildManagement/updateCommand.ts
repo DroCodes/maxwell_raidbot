@@ -54,7 +54,7 @@ module.exports = {
 					{ body: commands },
 				) as [];
 
-				interaction.reply(`Successfully reloaded ${data.length} application (/) commands.`);
+				interaction.reply({ content: `Successfully reloaded ${data.length} application (/) commands.`, ephemeral: true });
 
 			}
 			catch (error) {

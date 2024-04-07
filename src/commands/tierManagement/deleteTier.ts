@@ -30,10 +30,10 @@ module.exports = {
 		const removeTier = await deleteTier(guildId, tierName);
 
 		if (!removeTier) {
-			interaction.reply('there was an issue deleting the tier');
+			interaction.reply({ content: `There was an issue deleting the tier, please make sure the tier ${tierName} exists.`, ephemeral: true });
 			return;
 		}
 
-		interaction.reply('Tier deleted successfully');
+		interaction.reply({ content: `Tier ${tierName} has been deleted`, ephemeral: true });
 	},
 };

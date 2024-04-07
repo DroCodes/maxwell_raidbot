@@ -45,29 +45,20 @@ module.exports = {
 			const tankNames = mainRoster?.tanks || [];
 			const healerNames = mainRoster?.healers || [];
 			const dpsNames = mainRoster?.dps || [];
-
 			const tankList = tankNames.join('\n');
 			const healerList = healerNames.join('\n');
 			const dpsList = dpsNames.join('\n');
-
 			const masterList = tankList + '\n' + healerList + '\n' + dpsList;
-
 			const overFlowTanks = overflowRoster?.tanks || [];
 			const overFlowHealers = overflowRoster?.healers || [];
 			const overFlowDps = overflowRoster?.dps || [];
-
 			const overFlowTankList = overFlowTanks.join('\n');
 			const overFlowHealerList = overFlowHealers.join('\n');
 			const overFlowDpsList = overFlowDps.join('\n');
-
 			const overFlowList = overFlowTankList + '\n' + overFlowHealerList + '\n' + overFlowDpsList;
-
 			const raidSize = Number(raid?.tanks) + Number(raid?.healers) + Number(raid?.dps);
-
 			const overflowRosterCount = overFlowTanks.length + overFlowHealers.length + overFlowDps.length;
-
 			const rosterCount = tankNames.length + healerNames.length + dpsNames.length + '/' + raidSize + '( +' + overflowRosterCount + ')' + ' total signups';
-
 			const targetMessage = await interaction.channel.parent.messages.fetch(raid?.rosterMsgId);
 
 			console.log(targetMessage.id);

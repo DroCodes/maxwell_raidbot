@@ -42,7 +42,7 @@ module.exports = {
 		}
 		catch (err) {
 			console.error('there was an issue running this command');
-			interaction.reply('there was an issue running this command, contact support for assistance');
+			interaction.reply('there was an issue running this command, contact Drocifer for assistance');
 		}
 	},
 };

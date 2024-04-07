@@ -49,15 +49,15 @@ module.exports = {
 			const saveTier = await createTier(guildId, formatTierName, role.name, raidRole, isRestricted);
 
 			if (!saveTier) {
-				interaction.reply(`There was an issue saving the tier, please make a tier doesn't already exist with the name ${tierName}.`);
+				interaction.reply({ content: `There was an issue saving the tier, please make a tier doesn't already exist with the name ${tierName}.`, ephemeral: true });
 				return;
 			}
 
-			interaction.reply(`Tier ${tierName} has been saved`);
+			interaction.reply({ content: `Tier ${tierName} has been saved`, ephemeral: true });
 		}
 		catch (err) {
 			console.log('There was an error running this command ' + err);
-			interaction.reply('There was an error running this command');
+			interaction.reply({ content: 'There was an error running this command', ephemeral: true });
 		}
 	},
 };

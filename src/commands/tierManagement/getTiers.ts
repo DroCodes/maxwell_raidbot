@@ -48,7 +48,7 @@ module.exports = {
 		}
 		catch (err) {
 			console.log('There was an error running this command ' + err);
-			interaction.reply('There was an error running this command');
+			interaction.reply({ content: 'There was an error running this command', ephemeral: true });
 		}
 	},
 };

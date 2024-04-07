@@ -44,14 +44,14 @@ module.exports = {
 			const addRole = await addRoleToTier(guildId, tierName, role.name, raidRole);
 
 			if (addRole === null) {
-				interaction.reply('there was an issue adding the role to tier, please make sure tier exists');
+				interaction.reply({ content: 'there was an issue adding the role to tier, please make sure tier exists', ephemeral: true });
 			}
 
-			interaction.reply('Role has been successfully added');
+			interaction.reply({ content: `${raidRole} has been successfully added to tier ${tierName}`, ephemeral: true });
 		}
 		catch (err) {
 			console.log('There was an error running this command ' + err);
-			interaction.reply('There was an error running this command');
+			interaction.reply({ content: 'There was an error running this command', ephemeral: true });
 		}
 	},
 };
