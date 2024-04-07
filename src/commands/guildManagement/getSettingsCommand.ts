@@ -1,11 +1,12 @@
-import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { getSettings } from '../../database/dataRepository/guildSettingsRepository';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('get_settings')
-		.setDescription('gets the settings for the guild'),
+		.setDescription('gets the settings for the guild')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

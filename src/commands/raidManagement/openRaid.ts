@@ -1,6 +1,6 @@
 import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
-import { verifyRaidExists } from '../../lib/verification/raidVerification';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyRaidExists } from '../../services/verification/raidVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 import {
 	findRaid, openRaid,
 	saveInfoMessage,
@@ -9,11 +9,11 @@ import {
 } from '../../database/dataRepository/raidRepository';
 import { findRaidSettings, getRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
-import { convertToUnixTime } from '../../lib/dateHelpers/dateFormater';
+import { convertToUnixTime } from '../../services/dateHelpers/dateFormater';
 import raidEmoji from '../../database/models/raidEmoji';
 import { IRaidSettingsInstance } from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes';
 import { saveRoster } from '../../database/dataRepository/rosterRepository';
-import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -59,6 +59,12 @@ module.exports = {
 			const channelCreate = await guild.channels.create({
 				name: raidName,
 				parent: raidSettings?.raidChannelGroup,
+				PermissionOverwrites: [
+					{
+						id: guild.roles.everyone,
+						deny: [PermissionFlagsBits.SendMessages],
+					},
+				],
 			});
 
 			const saveChannel = await saveRaidChannelId(guildId, raidName, channelCreate.id);

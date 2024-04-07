@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
-import { verifyRaidExists } from '../../lib/verification/raidVerification';
-import { parseDate } from '../../lib/dateHelpers/dateFormater';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
+import { verifyRaidExists } from '../../services/verification/raidVerification';
+import { parseDate } from '../../services/dateHelpers/dateFormater';
 import { deleteRaid, saveRaidDate } from '../../database/dataRepository/raidRepository';
 
 module.exports = {

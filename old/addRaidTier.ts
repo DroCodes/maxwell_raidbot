@@ -1,8 +1,8 @@
 // import { SlashCommandBuilder } from 'discord.js';
 // import { findRaid, saveRaidTier } from '../../database/dataRepository/raidRepository';
 // import { findAllTiers } from '../../database/dataRepository/tierRepository';
-// import { verifyBotChannel } from '../../lib/verification/channelVerification';
-// import { verifyRaidExists } from '../../lib/verification/raidVerification';
+// import { verifyBotChannel } from '../../services/verification/channelVerification';
+// import { verifyRaidExists } from '../../services/verification/raidVerification';
 //
 // module.exports = {
 // 	data: new SlashCommandBuilder()

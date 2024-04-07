@@ -1,4 +1,5 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -10,6 +11,14 @@ module.exports = {
 
 	async execute(interaction: any) {
 		try {
+			const { guildId, channel } = interaction;
+
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				return;
+			}
 			console.log('...');
 		}
 		catch (err) {

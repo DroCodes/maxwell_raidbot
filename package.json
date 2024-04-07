@@ -10,7 +10,7 @@
     "global-commands": "ts-node src/scripts/deployGlobalCommands.ts",
     "delete-commands": "ts-node src/scripts/deleteCommands.ts",
     "update-db": "ts-node src/database/updateDatabase.ts",
-    "test-date": "ts-node src/lib/dateHelpers/dateFormater.ts"
+    "test-date": "ts-node src/services/dateHelpers/dateFormater.ts"
   },
   "dependencies": {
     "@types/node": "^20.3.1",

@@ -1,13 +1,14 @@
-import { EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findAllTiers } from '../../database/dataRepository/tierRepository';
 import tier from '../../database/models/tier';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('get_tiers')
-		.setDescription('gets a list of all tiers'),
+		.setDescription('gets a list of all tiers')
+		.setDefaultMemberPermissions(PermissionFlagsBits.BanMembers),
 
 	isDevelopment: false,
 

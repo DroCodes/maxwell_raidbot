@@ -1,8 +1,8 @@
 // import { SlashCommandBuilder } from 'discord.js';
-// // import { verifyBotChannel } from '../../lib/verification/channelVerification';
-// // import { verifyRaidExists } from '../../lib/verification/raidVerification';
+// // import { verifyBotChannel } from '../../services/verification/channelVerification';
+// // import { verifyRaidExists } from '../../services/verification/raidVerification';
 // // import { saveRaidDate, saveRaidLead } from '../../database/dataRepository/raidRepository';
-// // import { parseDate } from '../../lib/dateHelpers/dateFormater';
+// // import { parseDate } from '../../services/dateHelpers/dateFormater';
 //
 // module.exports = {
 // 	data: new SlashCommandBuilder()

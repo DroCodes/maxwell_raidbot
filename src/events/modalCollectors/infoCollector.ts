@@ -2,11 +2,11 @@ import {
 	EmbedBuilder,
 	Events,
 } from 'discord.js';
-import { verifyRaidExists } from '../../lib/verification/raidVerification';
+import { verifyRaidExists } from '../../services/verification/raidVerification';
 import { findRaid, saveInfo } from '../../database/dataRepository/raidRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
-import { convertToUnixTime } from '../../lib/dateHelpers/dateFormater';
-import { editInfoMessage } from '../../lib/messageHelpers/editInfoMessage';
+import { convertToUnixTime } from '../../services/dateHelpers/dateFormater';
+import { editInfoMessage } from '../../services/messageHelpers/editInfoMessage';
 
 module.exports = {
 	name: Events.InteractionCreate,

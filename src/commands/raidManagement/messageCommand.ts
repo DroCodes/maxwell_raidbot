@@ -2,8 +2,9 @@ import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findAllRaids, findRaid } from '../../database/dataRepository/raidRepository';
 import { getMainRoster } from '../../database/dataRepository/mainRosterRepository';
 import { getOverflow } from '../../database/dataRepository/overflowRosterRepository';
-import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 // will need to come back to this. need to rework the way the message is built and edited
 
@@ -20,8 +21,15 @@ module.exports = {
 	isDevelopment: false,
 
 	async execute(interaction: any) {
-		const { guildId, channelId, options } = interaction;
+		const { guildId, channelId, options, channel } = interaction;
 		const message = options.getString('message');
+
+		const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+		if (!checkBotChannel) {
+			interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+			return;
+		}
 
 		const allRaids = await findAllRaids(guildId);
 

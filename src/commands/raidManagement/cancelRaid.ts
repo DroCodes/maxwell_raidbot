@@ -3,6 +3,7 @@ import { deleteRaid, findRaid } from '../../database/dataRepository/raidReposito
 import { getRoster } from '../../database/dataRepository/rosterRepository';
 import { deleteMainRoster, getMainRoster } from '../../database/dataRepository/mainRosterRepository';
 import { deleteOverflow } from '../../database/dataRepository/overflowRosterRepository';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -22,9 +23,16 @@ module.exports = {
 
 	async execute(interaction: any) {
 		try {
-			const { guild, guildId, options } = interaction;
+			const { guild, guildId, options, channel } = interaction;
 			const raidName = options.getString('raid_name');
 			let reason = options.getString('reason');
+
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				return;
+			}
 
 			const raid = await findRaid(guildId, raidName);
 

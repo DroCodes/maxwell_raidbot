@@ -1,6 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { saveRaidChannelGroup } from '../../database/dataRepository/raidSettingsRepository';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -18,12 +19,11 @@ module.exports = {
 		try {
 			const { guildId, options, channel } = interaction;
 			const channelGroup = options.getChannel('raid_channel_group');
-			console.log(channelGroup);
 
-			const guild = await findGuildById(guildId);
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
 
-			if (channel.id != guild?.botChannelId) {
-				interaction.reply({ content: 'This is not the bot channel.', ephemeral: true });
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
 				return;
 			}
 

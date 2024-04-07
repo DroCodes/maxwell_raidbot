@@ -2,6 +2,7 @@ import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
 import { getMainRoster } from '../../database/dataRepository/mainRosterRepository';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,9 +21,16 @@ module.exports = {
 	isDevelopment: false,
 
 	async execute(interaction: any) {
-		const { guild, guildId, options } = interaction;
+		const { guild, guildId, options, channel } = interaction;
 		const raidName = options.getString('raid_name');
 		const message = options.getString('message');
+
+		const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+		if (!checkBotChannel) {
+			interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+			return;
+		}
 
 		const raid = await findRaid(guildId, raidName);
 

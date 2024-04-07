@@ -4,6 +4,7 @@ import { findRaid } from '../../database/dataRepository/raidRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
 import { getMainRoster } from '../../database/dataRepository/mainRosterRepository';
 import { getOverflow } from '../../database/dataRepository/overflowRosterRepository';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -22,6 +23,13 @@ module.exports = {
 			const { guild, guildId, channel, options } = interaction;
 
 			const raidName = options.getString('raid_name');
+
+			const checkBotChannel = await verifyBotChannel(guildId, channel.id);
+
+			if (!checkBotChannel) {
+				interaction.reply({ content: 'this is not the bot channel', ephemeral: true });
+				return;
+			}
 
 			const raid = await findRaid(guildId, raidName) as IRaidInstance;
 

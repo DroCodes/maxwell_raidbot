@@ -1,5 +1,5 @@
 import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 import { findAllRaids } from '../../database/dataRepository/raidRepository';
 
 module.exports = {

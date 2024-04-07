@@ -2,7 +2,7 @@ import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { addRoleToTier } from '../../database/dataRepository/tierRepository';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 import { findRaid } from '../../database/dataRepository/raidRepository';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()

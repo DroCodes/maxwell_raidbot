@@ -1,5 +1,5 @@
 import { Events, User } from 'discord.js';
-import { verifyRaidExists } from '../../lib/verification/raidVerification';
+import { verifyRaidExists } from '../../services/verification/raidVerification';
 import {
 	findRaid,
 	saveRaidDate,
@@ -7,9 +7,9 @@ import {
 	saveRaidRoles,
 	saveRaidTier,
 } from '../../database/dataRepository/raidRepository';
-import { convertToUnixTime, parseDate } from '../../lib/dateHelpers/dateFormater';
-import { verifyTierExists } from '../../lib/verification/tierVerification';
-import { editInfoMessage } from '../../lib/messageHelpers/editInfoMessage';
+import { convertToUnixTime, parseDate } from '../../services/dateHelpers/dateFormater';
+import { verifyTierExists } from '../../services/verification/tierVerification';
+import { editInfoMessage } from '../../services/messageHelpers/editInfoMessage';
 
 module.exports = {
 	// TODO: Add db field to store raid status (open, closed, in progress)

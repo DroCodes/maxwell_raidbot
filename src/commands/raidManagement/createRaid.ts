@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { createRaid } from '../../database/dataRepository/raidRepository';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()

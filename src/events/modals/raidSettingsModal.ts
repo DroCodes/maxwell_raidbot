@@ -6,8 +6,8 @@ import {
 	TextInputBuilder,
 	TextInputStyle,
 } from 'discord.js';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
-import { verifyRaidExists } from '../../lib/verification/raidVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
+import { verifyRaidExists } from '../../services/verification/raidVerification';
 
 module.exports = {
 	name: Events.InteractionCreate,

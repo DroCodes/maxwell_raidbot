@@ -2,7 +2,7 @@ import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { deleteTier } from '../../database/dataRepository/tierRepository';
 import tier from '../../database/models/tier';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()

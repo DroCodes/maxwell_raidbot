@@ -1,6 +1,6 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { saveAdminChannel } from '../../database/dataRepository/guildSettingsRepository';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -9,7 +9,8 @@ module.exports = {
 		.addChannelOption(option =>
 			option.setName('channel')
 				.setDescription('the channel to set as the admin channel')
-				.setRequired(true)),
+				.setRequired(true))
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

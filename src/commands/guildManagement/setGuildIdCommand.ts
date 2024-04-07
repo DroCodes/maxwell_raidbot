@@ -1,10 +1,11 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { saveGuildId } from '../../database/dataRepository/guildSettingsRepository';
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('set_guild_id')
-		.setDescription('sets the guild id'),
+		.setDescription('sets the guild id')
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
 	isDevelopment: false,
 

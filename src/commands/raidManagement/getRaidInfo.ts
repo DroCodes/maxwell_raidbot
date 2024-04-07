@@ -1,8 +1,8 @@
 import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
-import { verifyBotChannel } from '../../lib/verification/channelVerification';
-import { convertToUnixTime } from '../../lib/dateHelpers/dateFormater';
+import { verifyBotChannel } from '../../services/verification/channelVerification';
+import { convertToUnixTime } from '../../services/dateHelpers/dateFormater';
 
 module.exports = {
 	data: new SlashCommandBuilder()

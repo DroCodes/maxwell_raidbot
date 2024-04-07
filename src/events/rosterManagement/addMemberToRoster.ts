@@ -4,7 +4,7 @@ import { findRaid } from '../../database/dataRepository/raidRepository';
 import { findTier } from '../../database/dataRepository/tierRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { findRaidSettings, getRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
-import { getEmojiName } from '../../lib/emojiFormat';
+import { getEmojiName } from '../../services/emojiFormat';
 import { IRaidSettingsInstance } from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes';
 import { IRaidEmojiInstance } from '../../interfaces/databaseInterfaces/IRaidEmojiAttributes';
 import {
@@ -22,7 +22,7 @@ import {
 	getOverflow, removeDpsFromOverflow,
 	removeHealerFromOverflow, removeTankFromOverflow,
 } from '../../database/dataRepository/overflowRosterRepository';
-import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
 
 
 module.exports = {

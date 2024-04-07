@@ -17,9 +17,9 @@ import {
 	removeHealerFromOverflow,
 	removeTankFromOverflow,
 } from '../../database/dataRepository/overflowRosterRepository';
-import { getEmojiName } from '../../lib/emojiFormat';
+import { getEmojiName } from '../../services/emojiFormat';
 import { IRaidEmojiInstance } from '../../interfaces/databaseInterfaces/IRaidEmojiAttributes';
-import { editRosterMessage } from '../../lib/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
 
 module.exports = {
 	name: Events.MessageReactionRemove,
