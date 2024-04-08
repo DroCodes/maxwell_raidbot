@@ -6,7 +6,6 @@ import 'dotenv/config';
 
 const token = process.env.BOT_TOKEN as string;
 const clientId = process.env.CLIENT_ID as string;
-const guildId = process.env.GUILD_ID as string;
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
@@ -41,7 +40,7 @@ const rest = new REST().setToken(token);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationCommands(clientId),
 			{ body: commands },
 		) as [];
 
