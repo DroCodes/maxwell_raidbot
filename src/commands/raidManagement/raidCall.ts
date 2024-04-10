@@ -93,7 +93,7 @@ module.exports = {
 
 			raidChannel.send(raidCallMessage);
 
-			interaction.reply({ content: 'Raid opened', ephemeral: false });
+			interaction.reply({ content: 'Raid opened', ephemeral: true });
 		}
 		catch (err) {
 			console.error('Error:', err);

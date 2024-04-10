@@ -127,7 +127,7 @@ module.exports = {
 
 			raidChannelThread.send('Thread message');
 
-			await interaction.reply(`new channel ${channelCreate.name}`);
+			await interaction.reply({ content: `Raid ${raidName} has been opened`, ephemeral: true });
 		}
 		catch (err) {
 			console.error('there was an issue running this command', err);

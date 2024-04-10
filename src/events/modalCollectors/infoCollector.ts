@@ -56,7 +56,7 @@ module.exports = {
 				return;
 			}
 
-			await interaction.reply({ content: `Raid info for ${raidName} saved as: \n\n${raidInfo}` });
+			await interaction.reply({ content: `Raid info for ${raidName} saved as: \n\n${raidInfo}`, ephemeral: true });
 		}
 	},
 };
