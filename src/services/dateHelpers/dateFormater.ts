@@ -1,11 +1,8 @@
 const convertToUnixTime = (date: Date) => {
-	// Get the Unix timestamp (in milliseconds) from the input Date object
 	const unixTime = date.getTime();
 
 	// Convert milliseconds to seconds
-	const unixTimeInSeconds = Math.floor(unixTime / 1000);
-
-	return unixTimeInSeconds;
+	return Math.floor(unixTime / 1000);
 };
 
 
@@ -22,9 +19,7 @@ const convertStringToUnixTime = (dateString: string) => {
 	const unixTime = localDate.getTime();
 
 	// Convert milliseconds to seconds
-	const unixTimeInSeconds = Math.floor(unixTime / 1000);
-
-	return unixTimeInSeconds;
+	return Math.floor(unixTime / 1000);
 };
 
 function parseDate(dateString: string): Date {
@@ -33,8 +28,7 @@ function parseDate(dateString: string): Date {
 	const [hour, minute] = hh_mm.split(':');
 	const year = new Date().getFullYear();
 
-	const date = new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
-	return date;
+	return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
 }
 
 export { convertToUnixTime, convertStringToUnixTime, parseDate };

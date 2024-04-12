@@ -11,6 +11,13 @@ import { convertToUnixTime, parseDate } from '../../services/dateHelpers/dateFor
 import { verifyTierExists } from '../../services/verification/tierVerification';
 import { editInfoMessage } from '../../services/messageHelpers/editInfoMessage';
 
+interface IInfo {
+	raidMessage: string | null;
+	raidTime: string | null;
+	raidLeader: string | null;
+
+}
+
 module.exports = {
 	// TODO: Add db field to store raid status (open, closed, in progress)
 	name: Events.InteractionCreate,
@@ -27,6 +34,7 @@ module.exports = {
 			const raidDate = interaction.fields.getTextInputValue('date');
 			const raidTier = interaction.fields.getTextInputValue('tier');
 			const raidRoles = interaction.fields.getTextInputValue('roles');
+			const info: IInfo = { raidMessage: null, raidTime: null, raidLeader: null };
 
 			console.log(typeof raidDate);
 
@@ -71,6 +79,7 @@ module.exports = {
 				}
 				else {
 					this.message += `Raid date saved as: <t:${unixDate}>\n`;
+					info.raidTime = `<t:${unixDate}>`;
 				}
 			}
 			else {
@@ -129,7 +138,8 @@ module.exports = {
 
 			if (raid?.isOpen) {
 				const user = await guild.members.cache.find((member:any) => member.user.username === raid?.raidLead);
-				const info = { raidMessage: raid?.info, raidTime: `<t:${convertToUnixTime(<Date>raid?.raidDateTime).toString()}>`, raidLeader: `<@${user.id}>` };
+				info.raidLeader = `<@${user.id}>`;
+				raid.info !== null ? info.raidMessage = <string>raid.info : info.raidMessage = 'No raid info set';
 				const channel = await interaction.guild.channels.fetch(raid?.raidChannelId);
 
 				if (channel) {

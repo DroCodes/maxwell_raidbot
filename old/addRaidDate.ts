@@ -42,7 +42,7 @@
 // 				return;
 // 			}
 //
-// 			const convertTime = parseDate(raidDate);
+// 			const convertTime = parseDate(raidDate);/////
 //
 // 			const addDate = await saveRaidDate(guildId, raidName, convertTime);
 //
