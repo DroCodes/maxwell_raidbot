@@ -1,19 +1,12 @@
 import moment from 'moment-timezone';
 
 const convertToUnixTime = (date: Date) => {
-	// const dateString = date.toISOString();
-	// const easternTz = moment(dateString);
-	// const unixTime = easternTz.unix() * 1000;
-	const utcTime = date.getTime();
+	// Create a Moment object from the input Date
+	const momentDate = moment(date);
 
-	// Get the offset for the Eastern timezone (in minutes)
-	const easternOffset = -240;
-
-	// Calculate the Unix time for Eastern timezone
-	const unixTime = utcTime + (easternOffset * 60 * 1000);
-
-	// Convert milliseconds to seconds
-	return Math.floor(unixTime / 1000);
+	// Get the Unix timestamp in seconds using Moment's .unix() function
+	// Return the Unix timestamp
+	return momentDate.unix();
 };
 
 
@@ -39,7 +32,14 @@ function parseDate(dateString: string): Date {
 	const [hour, minute] = hh_mm.split(':');
 	const year = new Date().getFullYear();
 
-	return new Date(`${year}-${month}-${day}T${hour}:${minute}:00`);
+	// Parse the date using Moment.js, considering it's in Eastern Time
+	const easternDate = moment.tz(`${year}-${month}-${day}T${hour}:${minute}:00`, 'America/New_York');
+
+	// Convert the Eastern Time date to UTC
+	const utcDate = easternDate.utc();
+
+	// Convert the Moment.js object to a JavaScript Date object
+	return utcDate.toDate();
 }
 
 export { convertToUnixTime, convertStringToUnixTime, parseDate };
