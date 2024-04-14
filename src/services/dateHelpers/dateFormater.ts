@@ -2,7 +2,7 @@ import moment from 'moment-timezone';
 
 const convertToUnixTime = (date: Date) => {
 	const dateString = date.toISOString();
-	const easternTz = moment(dateString).tz('America/New_York');
+	const easternTz = moment(dateString);
 	const unixTime = easternTz.unix() * 1000;
 	// const unixTime = date.getTime();
 	console.log(easternTz);
