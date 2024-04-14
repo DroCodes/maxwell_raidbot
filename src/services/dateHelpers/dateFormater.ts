@@ -4,8 +4,13 @@ const convertToUnixTime = (date: Date) => {
 	// const dateString = date.toISOString();
 	// const easternTz = moment(dateString);
 	// const unixTime = easternTz.unix() * 1000;
-	const unixTime = date.getTime();
-	// console.log(easternTz);
+	const utcTime = date.getTime();
+
+	// Get the offset for the Eastern timezone (in minutes)
+	const easternOffset = -240;
+
+	// Calculate the Unix time for Eastern timezone
+	const unixTime = utcTime + (easternOffset * 60 * 1000);
 
 	// Convert milliseconds to seconds
 	return Math.floor(unixTime / 1000);
