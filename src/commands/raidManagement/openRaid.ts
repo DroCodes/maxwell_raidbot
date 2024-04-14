@@ -2,7 +2,7 @@ import { EmbedBuilder, PermissionFlagsBits, SlashCommandBuilder } from 'discord.
 import { verifyRaidExists } from '../../services/verification/raidVerification';
 import { verifyBotChannel } from '../../services/verification/channelVerification';
 import {
-	findRaid, openRaid,
+	findRaid, openRaid as openRaidDb,
 	saveInfoMessage,
 	saveRaidChannelId,
 	saveRosterMessage, saveThreadId,
@@ -10,10 +10,12 @@ import {
 import { findRaidSettings, getRaidEmoji } from '../../database/dataRepository/raidSettingsRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { convertToUnixTime } from '../../services/dateHelpers/dateFormater';
-import raidEmoji from '../../database/models/raidEmoji';
 import { IRaidSettingsInstance } from '../../interfaces/databaseInterfaces/IRaidSettingsAttributes';
 import { saveRoster } from '../../database/dataRepository/rosterRepository';
-import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageServices/editRaidMessage';
+import { findTier } from '../../database/dataRepository/tierRepository';
+import RaidManager from '../../services/raidServices/raidManager';
+import raidEmoji from '../../database/models/raidEmoji';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -29,6 +31,7 @@ module.exports = {
 
 	async execute(interaction: any) {
 		try {
+			console.log('interaction type' + typeof interaction);
 			const { guild, guildId, channel, options } = interaction;
 			const raidName = options.getString('raid_name');
 
@@ -56,16 +59,16 @@ module.exports = {
 
 			const raid = await findRaid(guildId, raidName) as IRaidInstance;
 
-			const channelCreate = await guild.channels.create({
-				name: raidName,
-				parent: raidSettings?.raidChannelGroup,
-				PermissionOverwrites: [
-					{
-						id: guild.roles.everyone,
-						deny: [PermissionFlagsBits.SendMessages],
-					},
-				],
-			});
+			const getTier = await findTier(guildId, raid.raidTier as string);
+			let restrictedTier: string | null = null;
+
+			if (getTier?.isRestricted) {
+				console.log('tier is restricted');
+				// find role id
+				restrictedTier = await guild.roles.cache.find((role:any) => role.name === getTier.roleName[0]);
+			}
+
+			const channelCreate = await RaidManager.openRaid(raid, raidSettings as IRaidSettingsInstance, guild, restrictedTier);
 
 			const saveChannel = await saveRaidChannelId(guildId, raidName, channelCreate.id);
 
@@ -101,6 +104,13 @@ module.exports = {
 
 			await channelCreate.send('@everyone');
 			const infoMsg = await channelCreate.send({ embeds: [ infoEmbed ] });
+			const getEmoji = await getRaidEmoji(raidSettings?.id as number);
+
+			if (getEmoji === null || getEmoji === undefined) {
+				interaction.reply({ content: 'unable to get emoji', ephemeral: true });
+				return;
+			}
+
 			const rosterMsg = await channelCreate.send({ embeds: [ editRosterMessage(' ', ' ', [0, 0, 0], 'no signups', '') ] });
 
 			await saveInfoMessage(guildId, raidName, infoMsg.id);
@@ -112,20 +122,14 @@ module.exports = {
 				reason: 'Thread for raid discussions',
 			});
 
-			const getEmoji = await getRaidEmoji(raidSettings?.id as number);
-
-			if (getEmoji === null) {
-				interaction.reply({ content: 'unable to get emoji', ephemeral: true });
-			}
-
 			getEmoji?.forEach(e => {
 				rosterMsg.react(e.emoji);
 			});
 
 			await saveThreadId(guildId, raidName, raidChannelThread.id);
-			await openRaid(guildId, raidName);
+			await openRaidDb(guildId, raidName);
 
-			raidChannelThread.send('Thread message');
+			await raidChannelThread.send('Discussion thread for the raid, please keep all discussions here.');
 
 			await interaction.reply({ content: `Raid ${raidName} has been opened`, ephemeral: true });
 		}

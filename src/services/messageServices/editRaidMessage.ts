@@ -1,7 +1,9 @@
 import { EmbedBuilder } from 'discord.js';
+import { IRaidEmojiInstance } from '../../interfaces/databaseInterfaces/IRaidEmojiAttributes';
 
 const editRosterMessage = (mainRoster: string, overflowRoster: string, roleCount: number[], rosterCount: string, message: string) => {
 	try {
+		console.log('mainRoster: ' + mainRoster);
 		return new EmbedBuilder()
 			.setTitle('__Roster__:')
 			.setDescription(mainRoster)

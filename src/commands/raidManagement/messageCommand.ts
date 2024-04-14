@@ -2,7 +2,7 @@ import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import { findAllRaids, findRaid } from '../../database/dataRepository/raidRepository';
 import { getMainRoster } from '../../database/dataRepository/mainRosterRepository';
 import { getOverflow } from '../../database/dataRepository/overflowRosterRepository';
-import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageServices/editRaidMessage';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
 import { verifyBotChannel } from '../../services/verification/channelVerification';
 

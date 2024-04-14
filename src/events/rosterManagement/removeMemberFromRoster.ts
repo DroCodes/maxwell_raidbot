@@ -19,7 +19,7 @@ import {
 } from '../../database/dataRepository/overflowRosterRepository';
 import { getEmojiName } from '../../services/emojiFormat';
 import { IRaidEmojiInstance } from '../../interfaces/databaseInterfaces/IRaidEmojiAttributes';
-import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageServices/editRaidMessage';
 
 module.exports = {
 	name: Events.MessageReactionRemove,
@@ -68,7 +68,7 @@ module.exports = {
 			return;
 		}
 
-		const mainRoster = await getMainRoster(<number>roster.id);
+		let mainRoster = await getMainRoster(<number>roster.id);
 
 		if (mainRoster === null) {
 			console.log('main roster does not exist ' + raid.raidName);
@@ -162,12 +162,25 @@ module.exports = {
 		}
 
 		try {
-			const getRosterRoles = await getMainRoster(<number>roster?.id);
+			mainRoster = await getMainRoster(<number>roster?.id);
 			overflowRoster = await getOverflow(<number>roster?.id);
 
-			const tankNames = getRosterRoles?.tanks || [];
-			const healerNames = getRosterRoles?.healers || [];
-			const dpsNames = getRosterRoles?.dps || [];
+			const tankEmoji = raidEmoji.find(e => e.raidRole.toLowerCase() === 'tank')?.emoji;
+			const healerEmoji = raidEmoji.find(e => e.raidRole.toLowerCase() === 'healer')?.emoji;
+			const dpsEmoji = raidEmoji.find(e => e.raidRole.toLowerCase() === 'dps')?.emoji;
+
+			const tankNames = mainRoster?.tanks || [];
+			for (let i = 0; i < tankNames.length; i++) {
+				tankNames[i] += ' ' + tankEmoji;
+			}
+			const healerNames = mainRoster?.healers || [];
+			for (let i = 0; i < healerNames.length; i++) {
+				healerNames[i] += ' ' + healerEmoji;
+			}
+			const dpsNames = mainRoster?.dps || [];
+			for (let i = 0; i < dpsNames.length; i++) {
+				dpsNames[i] += ' ' + dpsEmoji;
+			}
 
 			const tankList = tankNames.join('\n');
 			const healerList = healerNames.join('\n');

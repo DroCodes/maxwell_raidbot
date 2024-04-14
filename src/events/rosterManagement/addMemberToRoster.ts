@@ -1,4 +1,4 @@
-import { EmbedBuilder, Events } from 'discord.js';
+import { Events } from 'discord.js';
 import { findGuildById } from '../../database/dataRepository/guildSettingsRepository';
 import { findRaid } from '../../database/dataRepository/raidRepository';
 import { findTier } from '../../database/dataRepository/tierRepository';
@@ -14,7 +14,6 @@ import {
 	getMainRoster, removeDpsFromRoster, removeHealerFromRoster, removeTankFromRoster,
 } from '../../database/dataRepository/mainRosterRepository';
 import { getRoster } from '../../database/dataRepository/rosterRepository';
-import { IMainRosterInstance } from '../../interfaces/databaseInterfaces/IMainRosterAttributes';
 import { ITierInstance } from '../../interfaces/databaseInterfaces/ITierAttributes';
 import {
 	addDpsToOverflow, addHealerToOverflow,
@@ -22,7 +21,7 @@ import {
 	getOverflow, removeDpsFromOverflow,
 	removeHealerFromOverflow, removeTankFromOverflow,
 } from '../../database/dataRepository/overflowRosterRepository';
-import { editRosterMessage } from '../../services/messageHelpers/editRaidMessage';
+import { editRosterMessage } from '../../services/messageServices/editRaidMessage';
 
 
 module.exports = {
@@ -169,8 +168,6 @@ module.exports = {
 				signedUp = { isSignedUp: true, role: 'healer' };
 			}
 
-			console.log(signedUpAsHealer);
-
 			const signedUpAsDps = mainRoster.dps?.filter(d => {
 				return d === username;
 			});
@@ -267,17 +264,14 @@ module.exports = {
 
 			if (mainRoster === null) {
 				await addDpsToRoster(<number>roster?.id, username, 'dps');
-				console.log('main roster null added dps');
 			}
 			else if (<number>mainRoster?.dps?.length != Number(raid.dps)) {
 				await addDpsToRoster(<number>roster?.id, username, 'dps');
-				console.log('added dps');
+
 			}
 			else {
 				console.log(checkOverflowDps);
 				if (overflowRoster === null || checkOverflowDps === -1) {
-					console.log('added to overflow');
-					console.log(checkOverflowTank);
 					await addDpsToOverflow(<number>roster?.id, username, 'dps');
 				}
 
@@ -291,10 +285,22 @@ module.exports = {
 		try {
 			mainRoster = await getMainRoster(<number>roster?.id);
 			overflowRoster = await getOverflow(<number>roster?.id);
+			const tankEmoji = raidEmoji.find(e => e.raidRole.toLowerCase() === 'tank')?.emoji;
+			const healerEmoji = raidEmoji.find(e => e.raidRole.toLowerCase() === 'healer')?.emoji;
+			const dpsEmoji = raidEmoji.find(e => e.raidRole.toLowerCase() === 'dps')?.emoji;
 
 			const tankNames = mainRoster?.tanks || [];
+			for (let i = 0; i < tankNames.length; i++) {
+				tankNames[i] += ' ' + tankEmoji;
+			}
 			const healerNames = mainRoster?.healers || [];
+			for (let i = 0; i < healerNames.length; i++) {
+				healerNames[i] += ' ' + healerEmoji;
+			}
 			const dpsNames = mainRoster?.dps || [];
+			for (let i = 0; i < dpsNames.length; i++) {
+				dpsNames[i] += ' ' + dpsEmoji;
+			}
 
 			const tankList = tankNames.join('\n');
 			const healerList = healerNames.join('\n');

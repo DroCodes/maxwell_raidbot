@@ -6,7 +6,7 @@ import { verifyRaidExists } from '../../services/verification/raidVerification';
 import { findRaid, saveInfo } from '../../database/dataRepository/raidRepository';
 import { IRaidInstance } from '../../interfaces/databaseInterfaces/IRaidAttributes';
 import { convertToUnixTime } from '../../services/dateHelpers/dateFormater';
-import { editInfoMessage } from '../../services/messageHelpers/editInfoMessage';
+import { editInfoMessage } from '../../services/messageServices/editInfoMessage';
 
 module.exports = {
 	name: Events.InteractionCreate,

@@ -9,7 +9,7 @@ import {
 } from '../../database/dataRepository/raidRepository';
 import { convertToUnixTime, parseDate } from '../../services/dateHelpers/dateFormater';
 import { verifyTierExists } from '../../services/verification/tierVerification';
-import { editInfoMessage } from '../../services/messageHelpers/editInfoMessage';
+import { editInfoMessage } from '../../services/messageServices/editInfoMessage';
 
 interface IInfo {
 	raidMessage: string | null;
@@ -71,10 +71,8 @@ module.exports = {
 
 			if (raidDate !== '') {
 				const convertDate = parseDate(raidDate);
-				console.log('convertDate', convertDate);
 				const saveDate = saveRaidDate(guildId, raidName, convertDate);
 				const unixDate = convertToUnixTime(convertDate).toString();
-				console.log('unixDate', unixDate);
 
 				if (!saveDate) {
 					this.message += `unable to save date: ${raidDate}, make sure it is formatted correctly mm-dd hh:mm\n`;
