@@ -1,5 +1,11 @@
+import moment from 'moment-timezone';
+
 const convertToUnixTime = (date: Date) => {
-	const unixTime = date.getTime();
+	const dateString = date.toString();
+	const easternTz = moment(dateString).tz('America/New_York');
+	const unixTime = easternTz.unix() * 1000;
+	// const unixTime = date.getTime();
+	console.log(easternTz);
 
 	// Convert milliseconds to seconds
 	return Math.floor(unixTime / 1000);
