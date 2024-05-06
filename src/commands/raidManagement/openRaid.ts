@@ -30,7 +30,7 @@ module.exports = {
 
 	async execute(interaction: any) {
 		try {
-			console.log('interaction type' + typeof interaction);
+			interaction.deferReply();
 			const { guild, guildId, channel, options } = interaction;
 			const raidName = options.getString('raid_name');
 
@@ -121,16 +121,21 @@ module.exports = {
 				reason: 'Thread for raid discussions',
 			});
 
-			getEmoji?.forEach(e => {
-				rosterMsg.react(e.emoji).then().catch(console.error);
-			});
+			// getEmoji?.forEach(e => {
+			// 	rosterMsg.react(e.emoji).then().catch(console.error);
+			// });
+
+			for (let i = 0; i < getEmoji.length; i++) {
+				const emoji = getEmoji[i];
+				await rosterMsg.react(emoji.emoji);
+			}
 
 			await saveThreadId(guildId, raidName, raidChannelThread.id);
 			await openRaidDb(guildId, raidName);
 
 			await raidChannelThread.send('Discussion thread for the raid, please keep all discussions here.');
 
-			await interaction.reply({ content: `Raid ${raidName} has been opened`, ephemeral: true });
+			await interaction.editReply({ content: `Raid ${raidName} has been opened`, ephemeral: true });
 		}
 		catch (err) {
 			console.error('there was an issue running this command', err);
