@@ -15,7 +15,6 @@ import { saveRoster } from '../../database/dataRepository/rosterRepository';
 import { editRosterMessage } from '../../services/messageServices/editRaidMessage';
 import { findTier } from '../../database/dataRepository/tierRepository';
 import RaidManager from '../../services/raidServices/raidManager';
-import raidEmoji from '../../database/models/raidEmoji';
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -123,7 +122,7 @@ module.exports = {
 			});
 
 			getEmoji?.forEach(e => {
-				rosterMsg.react(e.emoji);
+				rosterMsg.react(e.emoji).then().catch(console.error);
 			});
 
 			await saveThreadId(guildId, raidName, raidChannelThread.id);

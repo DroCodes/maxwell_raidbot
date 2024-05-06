@@ -21,6 +21,11 @@ const RaidSettings = sequelize.define<IRaidSettingsInstance>(
 			type: DataTypes.TEXT,
 		},
 
+		raidLeadId: {
+			allowNull: true,
+			type: DataTypes.TEXT,
+		},
+
 		GuildSettingsId: {
 			allowNull: false,
 			type: DataTypes.TEXT,

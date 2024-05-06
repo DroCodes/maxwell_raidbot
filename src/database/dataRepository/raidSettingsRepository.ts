@@ -1,7 +1,6 @@
 import RaidSettings from '../models/raidSettings';
 import RaidEmoji from '../models/raidEmoji';
 import raidEmoji from '../models/raidEmoji';
-import raid from '../models/raid';
 
 const findRaidSettings = async (guildId: string) => {
 	try {
@@ -86,5 +85,29 @@ const getRaidEmoji = async (raidSettingsId: number) => {
 	}
 };
 
+const saveRaidLead = async (guildId: string, raidLeadId: string) => {
+	try {
+		const raidSettings = await findRaidSettings(guildId);
+		if (raidSettings === null || raidSettings === undefined) return null;
 
-export { findRaidSettings, saveRaidChannelGroup, saveRaidEmoji, getRaidEmoji };
+		const updateRaidLead = await RaidSettings.update({ raidLeadId: raidLeadId },
+			{
+				where: {
+					GuildSettingsId: guildId,
+				},
+			});
+
+		if (updateRaidLead != null) {
+			return updateRaidLead;
+		}
+		else {
+			return null;
+		}
+	}
+	catch (err) {
+		console.error('error saving raid lead', err);
+	}
+};
+
+
+export { findRaidSettings, saveRaidChannelGroup, saveRaidEmoji, getRaidEmoji, saveRaidLead };
